@@ -1,6 +1,6 @@
 NAME = minishell
 
-LIBFT_PATH = ./libraries/libft
+LIBFT_PATH = ./include/libft
 LIBFT = $(LIBFT_PATH)/libft.a
 
 CC =	gcc
@@ -20,12 +20,8 @@ vpath %.c src			\
 # src/parser		\
 # src/signal		\
 
-SRC =	main.c				\
-		minishell.c			\
-		next_char.c			\
-		peak_char.c			\
-		skip_white_space.c	\
-		unget_char.c
+SRC =	minishell.c		\
+
 
 RM = rm -rf
 
