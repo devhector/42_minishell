@@ -9,6 +9,8 @@ int	main(int argc, char **argv, char **envp)
 	char	*line;
 	char	*cmdline;
 
+	cmdline = NULL;
+
 	while(42)
 	{
 		line = readline(cmdline);
