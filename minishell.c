@@ -17,5 +17,4 @@ void	minishell(char	**envp)
 		free(cmdline);
 	}
 	free(line);
-	return (0);
 }
