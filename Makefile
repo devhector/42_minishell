@@ -1,6 +1,6 @@
 NAME = minishell
 
-LIBFT_PATH = ./include/libft
+LIBFT_PATH = ./libs/libft
 LIBFT = $(LIBFT_PATH)/libft.a
 
 CC =	gcc
