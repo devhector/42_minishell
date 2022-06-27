@@ -20,7 +20,8 @@ vpath %.c src			\
 # src/parser		\
 # src/signal		\
 
-SRC =	minishell.c		\
+SRC =	main.c			\
+		minishell.c		\
 
 
 RM = rm -rf

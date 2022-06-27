@@ -1,10 +1,7 @@
 #include "include/minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+void	minishell(char	**envp)
 {
-	(void)argc;
-	(void)argv;
-	(void)envp;
 
 	char	*line;
 	char	*cmdline;

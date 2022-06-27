@@ -4,3 +4,5 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "libft.h"
+
+void	minishell(char	**envp);
