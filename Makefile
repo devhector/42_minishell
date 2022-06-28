@@ -3,6 +3,8 @@ NAME = minishell
 LIBFT_PATH = ./libs/libft
 LIBFT = $(LIBFT_PATH)/libft.a
 
+INCLUDE_PATH = includes
+
 CC =	@gcc
 CFLAGS	= -Wall	\
 		-Werror	\
@@ -13,8 +15,12 @@ LFLAGS =	-lreadline		\
 			$(LIBFT_PATH)	\
 			-lft
 
+CFLAGS += $(addprefix -I , $(INCLUDE_PATH))
+
+vpath %.h $(INCLUDE_PATH)
+
 vpath %.c src			\
-		src/input		\
+		src/hashTable	\
 
 # src/builtin		\
 # src/parser		\
@@ -22,6 +28,8 @@ vpath %.c src			\
 
 SRC =	main.c			\
 		minishell.c		\
+		hash_table.c	\
+		hash_utils.c	\
 
 
 RM = @rm -rf
