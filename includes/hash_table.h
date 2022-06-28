@@ -17,8 +17,7 @@ void		clear_node(t_hash_elem *node);
 void		init_table(t_hash_elem **table);
 void		clear_table(t_hash_elem **table);
 void		clear_element(t_hash_elem *elem);
-void		insert_element(t_hash_elem **table, const char *key,
-				const char *data);
+void		insert_element(t_hash_elem **table, t_hash_elem *elem);
 
 int			hash(const char *key);
 
