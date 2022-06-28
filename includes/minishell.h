@@ -8,6 +8,8 @@
 #include "libft.h"
 #include "hash_table.h"
 
-void	minishell(char	**envp);
+void		minishell(char	**envp);
+t_hash_elem	**create_table_env(char **envp)
+
 
 #endif
