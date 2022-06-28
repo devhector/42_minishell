@@ -1,4 +1,4 @@
-#include "hash_table.h"
+#include "minishell.h"
 
 int	hash(const char *key)
 {

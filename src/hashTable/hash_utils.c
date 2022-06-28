@@ -1,4 +1,4 @@
-#include "hash_table.h"
+#include "minishell.h"
 
 void	init_table(t_hash_elem **table)
 {

@@ -6,6 +6,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "libft.h"
+#include "hash_table.h"
 
 void	minishell(char	**envp);
 
