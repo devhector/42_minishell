@@ -16,8 +16,6 @@ void	minishell(char	**envp)
 		printf("%s\n", line);
 		if (!ft_strlen(line))
 			break;
-		while (envp[i])
-			printf("%s\n", envp[i++]);
 		free(cmdline);
 	}
 	free(line);

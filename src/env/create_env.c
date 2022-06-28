@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char	*get_key(char	*data)
+static char	*get_key(char	*data)
 {
 	char	*key;
 	int		i;
@@ -12,7 +12,7 @@ char	*get_key(char	*data)
 	return (key);
 }
 
-char	*get_value(char	*data)
+static char	*get_value(char	*data)
 {
 	char	*value;
 	int		i;
@@ -24,7 +24,7 @@ char	*get_value(char	*data)
 	return (value);
 }
 
-t_hash_elem	*create_elem(char	*data)
+static t_hash_elem	*create_elem(char	*data)
 {
 	t_hash_elem	*elem;
 
@@ -37,7 +37,7 @@ t_hash_elem	*create_elem(char	*data)
 	return (elem);
 }
 
-t_hash_elem **create_table_env(char **envp)
+t_hash_elem	**create_table_env(char **envp)
 {
 	t_hash_elem	**table;
 	t_hash_elem	*elem;
