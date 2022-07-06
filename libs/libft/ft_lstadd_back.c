@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/06 20:04:23 by hectfern          #+#    #+#             */
-/*   Updated: 2021/08/07 09:46:41 by hectfern         ###   ########.fr       */
+/*   Updated: 2022/07/07 00:33:29 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_lstadd_back(t_list	**lst, t_list	*new)
 {
 	t_list	*aux;
 
-	if (!new || !lst)
+	if (!new)
 		return ;
 	if (!*lst)
 	{
