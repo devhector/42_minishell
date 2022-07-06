@@ -6,30 +6,22 @@ LIBFT = $(LIBFT_PATH)/libft.a
 INCLUDE_PATH = includes
 
 CC =	@gcc
-CFLAGS	= -Wall	\
-		-Werror	\
-		-Wextra
+CFLAGS	= -Wall -Werror -Wextra
 
-LFLAGS =	-lreadline		\
-			-L				\
-			$(LIBFT_PATH)	\
-			-lft
+LFLAGS =	-lreadline -L $(LIBFT_PATH) -lft
 
 CFLAGS += $(addprefix -I , $(INCLUDE_PATH))
 
 vpath %.h $(INCLUDE_PATH)
 
-vpath %.c src			\
-		src/hashTable	\
+vpath %.c src src/hashTable src/env	\
 
 # src/builtin		\
 # src/parser		\
 # src/signal		\
 
-SRC =	main.c			\
-		minishell.c		\
-		hash_table.c	\
-		hash_utils.c	\
+SRC =	main.c minishell.c hash_table.c hash_utils.c create_env.c \
+		tokenizer.c
 
 
 RM = @rm -rf
@@ -65,7 +57,9 @@ fclean: clean
 re: fclean all
 
 v:	all
-	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=readline.supp --trace-children=yes --verbose --log-file=valgrind-out.txt ./$(NAME)
+	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes \
+	--suppressions=readline.supp --trace-children=yes --verbose \
+	--log-file=valgrind-out.txt ./$(NAME)
 
 r:	all
 	clear
