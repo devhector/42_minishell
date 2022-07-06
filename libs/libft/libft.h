@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/02 15:32:03 by hectfern          #+#    #+#             */
-/*   Updated: 2022/01/08 17:32:00 by hectfern         ###   ########.fr       */
+/*   Updated: 2022/07/06 21:16:33 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int		ft_isalnum(int c);
 int		ft_isascii(int c);
 int		ft_isdigit(int c);
 int		ft_isprint(int c);
+int		ft_isspace(int c);
 int		ft_tolower(int c);
 int		ft_toupper(int c);
 int		ft_atoi(const char	*str);
