@@ -6,7 +6,7 @@ LIBFT = $(LIBFT_PATH)/libft.a
 INCLUDE_PATH = includes
 
 CC =	@gcc
-CFLAGS	= -Wall -Werror -Wextra
+CFLAGS	= -Wall -Werror -Wextra -g
 
 LFLAGS =	-lreadline -L $(LIBFT_PATH) -lft
 
