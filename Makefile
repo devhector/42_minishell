@@ -21,7 +21,7 @@ vpath %.c src src/hashTable src/env	src/tokenizer\
 # src/signal		\
 
 SRC =	main.c minishell.c hash_table.c hash_utils.c create_env.c \
-		tokenizer.c
+		tokenizer.c tokens_checker.c
 
 
 RM = @rm -rf
