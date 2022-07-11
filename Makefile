@@ -65,4 +65,7 @@ r:	all
 	clear
 	./$(NAME)
 
+debug: all
+	@gdb $(NAME)
+
 .PHONY: all clean fclean re
