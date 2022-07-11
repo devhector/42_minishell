@@ -23,21 +23,23 @@ static void	create_quote_token(t_shell *hell, int *i)
 	create_token(hell, start, *i);
 }
 
-static void	find_end_token(char *str, int *i, int isalnum)
+static void	find_end_token(t_shell *hell, int *i, int isalnum)
 {
-	int	start;
+	char	*str;
+	int		start;
 
 	start = *i;
+	str = hell->line;
 	if (isalnum)
 	{
 		while (str[*i] && !ft_isspace(str[*i]) && ft_isalnum(str[*i]))
-			*i++;
+			*i += 1;
 		create_token(hell, start, *i);
 	}
 	else
 	{
 		while (str[*i] && !ft_isspace(str[*i]) && !ft_isalnum(str[*i]))
-			*i++;
+			*i += 1;
 		create_token(hell, start, *i);
 	}
 }
@@ -45,7 +47,6 @@ static void	find_end_token(char *str, int *i, int isalnum)
 static void	get_tokens(t_shell	*hell)
 {
 	int		i;
-	int		start;
 	char	*str;
 
 	i = 0;
@@ -57,9 +58,9 @@ static void	get_tokens(t_shell	*hell)
 		else if (str[i] == '\'' || str[i] == '\"')
 			create_quote_token(hell, &i);
 		else if (!ft_isalnum(str[i]))
-			find_end_token(str, &i, 0);
+			find_end_token(hell, &i, 0);
 		else
-			find_end_token(str, &i, 1);
+			find_end_token(hell, &i, 1);
 	}
 }
 
