@@ -1,90 +1,70 @@
 #include "minishell.h"
 
-static int	token_counter(char	*line)
+static void	create_token(t_shell *hell, int start, int i)
 {
-	int	i;
-	int	count;
+	char	*str;
 
-	i = 0;
-	count = 0;
-	while (line[i])
-	{
-		if (ft_isspace(line[i]))
-			i++;
-		else
-		{
-			count++;
-			while (line[i] && !ft_isspace(line[i]))
-				i++;
-		}
-	}
-	printf("token count: %d\n", count);
-	return (count);
+	str = ft_substr(hell->line, start, i - start);
+	ft_lstadd_back(&hell->tokens, ft_lstnew(str));
 }
 
-// static void	get_tokens(t_shell *hell)
-// {
-// 	int	i;
-// 	int	j;
-// 	int	start;
+static void	create_quote_token(t_shell *hell, int *i)
+{
+	char	c;
+	int		start;
 
-// 	i = 0;
-// 	j = 0;
-// 	while(hell->line[i])
-// 	{
-// 		if (ft_isspace(hell->line[i]))
-// 			i++;
-// 		else
-// 		{
-// 			start = i;
-// 			while (hell->line[i] && !ft_isspace(hell->line[i]))
-// 				i++;
-// 			hell->tokens[j] = ft_substr(&hell->line[start], 0, i - start);
-// 			j++;
-// 		}
-// 	}
-// }
+	start = *i;
+	*i += 1;
+	c = hell->line[start];
+	while (hell->line[*i] && hell->line[*i] != c)
+		*i += 1;
+	if (hell->line[*i])
+		*i += 1;
+	create_token(hell, start, *i);
+}
 
-static void	get_tokens(t_shell *hell)
+static void	find_end_token(char *str, int *i, int isalnum)
+{
+	int	start;
+
+	start = *i;
+	if (isalnum)
+	{
+		while (str[*i] && !ft_isspace(str[*i]) && ft_isalnum(str[*i]))
+			*i++;
+		create_token(hell, start, *i);
+	}
+	else
+	{
+		while (str[*i] && !ft_isspace(str[*i]) && !ft_isalnum(str[*i]))
+			*i++;
+		create_token(hell, start, *i);
+	}
+}
+
+static void	get_tokens(t_shell	*hell)
 {
 	int		i;
 	int		start;
 	char	*str;
 
 	i = 0;
-	while(hell->line[i])
+	str = hell->line;
+	while (str[i])
 	{
-		if (ft_isspace(hell->line[i]))
+		if (ft_isspace(str[i]))
 			i++;
+		else if (str[i] == '\'' || str[i] == '\"')
+			create_quote_token(hell, &i);
+		else if (!ft_isalnum(str[i]))
+			find_end_token(str, &i, 0);
 		else
-		{
-			start = i;
-			while (hell->line[i] && !ft_isspace(hell->line[i]))
-				i++;
-			str = ft_substr(&hell->line[start], 0, i - start);
-			ft_lstadd_back(&hell->tokens, ft_lstnew(str));
-		}
+			find_end_token(str, &i, 1);
 	}
 }
 
-void delete_content(void *content)
+int	tokenizer(t_shell *hell)
 {
-	free((char *)content);
-}
-
-int	tokenizer (t_shell	*hell)
-{
-
-	hell->amt_tokens = token_counter(hell->line);
-	printf("number of tokens: %d\n", hell->amt_tokens);
 	get_tokens(hell);
-	t_list *tmp = hell->tokens;
-	while(tmp)
-	{
-		printf("%s\n", (char *)tmp->content);
-		tmp = tmp->next;
-	}
-	ft_lstclear(&hell->tokens, delete_content);
-
 	return (0);
 }
