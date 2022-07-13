@@ -19,6 +19,7 @@ typedef struct s_shell
 
 void		minishell(char	**envp);
 int			tokenizer (t_shell	*hell);
+int			tokens_checker(t_shell *hell);
 t_hash_elem	**create_table_env(char **envp);
 
 
