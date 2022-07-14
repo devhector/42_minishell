@@ -25,7 +25,6 @@ static void	create_quote_token(t_shell *hell, int *i)
 
 static void	create_dollar_token(t_shell *hell, int *i)
 {
-	char	*str;
 	int		start;
 
 	if (hell->line[*i + 1] != ' ')
