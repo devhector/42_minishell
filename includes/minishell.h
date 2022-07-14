@@ -13,11 +13,13 @@ typedef struct s_shell
 	int			amt_tokens;
 	char		*line;
 	t_list		*tokens;
+	t_list		*lexems;
 	t_hash_elem	**env;
 
 } t_shell;
 
 void		minishell(char	**envp);
+void		get_tokens(t_shell *hell);
 int			tokenizer (t_shell	*hell);
 int			tokens_checker(t_shell *hell);
 t_hash_elem	**create_table_env(char **envp);
