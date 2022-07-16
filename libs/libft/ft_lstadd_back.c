@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/06 20:04:23 by hectfern          #+#    #+#             */
-/*   Updated: 2022/07/07 00:33:29 by hectfern         ###   ########.fr       */
+/*   Updated: 2022/07/17 00:15:39 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@ void	ft_lstadd_back(t_list	**lst, t_list	*new)
 	{
 		aux = ft_lstlast(*lst);
 		aux->next = new;
+		new->prev = aux;
 	}
 }
