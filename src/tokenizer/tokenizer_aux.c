@@ -27,7 +27,11 @@ static void	create_dollar_token(t_shell *hell, int *i)
 {
 	int		start;
 
+<<<<<<< HEAD
 	if (hell->line[*i + 1] != ' ')
+=======
+	if (hell->line[*i + 1] == ' ')
+>>>>>>> lexical_analytics
 	{
 		create_token(hell, *i, *i + 1);
 		*i += 1;
@@ -36,9 +40,15 @@ static void	create_dollar_token(t_shell *hell, int *i)
 	{
 		start = *i;
 		*i += 1;
+<<<<<<< HEAD
 		while(hell->line[*i] && !ft_isspace(hell->line[*i])
 			&& hell->line[*i] != '$' && hell->line[*i] != '>'
 			&& hell->line[*i] != '<')
+=======
+		while (hell->line[*i] && !ft_isspace(hell->line[*i])
+			&& hell->line[*i] != '$' && hell->line[*i] != '>'
+			&& hell->line[*i] != '<' && hell->line[*i] != '|')
+>>>>>>> lexical_analytics
 			*i += 1;
 		create_token(hell, start, *i);
 	}

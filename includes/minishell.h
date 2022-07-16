@@ -1,6 +1,15 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+#define WORD "WORD"
+#define PIPE "PIPE"
+#define LESS "LESS"
+#define DLESS "DLESS"
+#define GREAT "GREAT"
+#define DGREAT "DGREAT"
+#define ASSIGNMENT "ASSIGNMENT"
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <readline/readline.h>
