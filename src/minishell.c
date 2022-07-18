@@ -48,8 +48,8 @@ void	minishell(char	**envp)
 		// printf("%s\n", hell.line);
 		if (!ft_strlen(hell.line))
 			break;
-		tokenizer(&hell);
+		scan(&hell);
+		free(hell.line);
 		free(cmdline);
 	}
-	free(hell.line);
 }

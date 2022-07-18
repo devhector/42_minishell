@@ -16,6 +16,13 @@
 #include <readline/history.h>
 #include "libft.h"
 #include "hash_table.h"
+#include "scan.h"
+
+typedef struct s_scan
+{
+	char	*token;
+	char	*type;
+} t_scan;
 
 typedef struct s_shell
 {
@@ -29,8 +36,11 @@ typedef struct s_shell
 
 void		minishell(char	**envp);
 void		get_tokens(t_shell *hell);
+
+int			scan(t_shell *hell);
 int			tokenizer (t_shell	*hell);
 int			tokens_checker(t_shell *hell);
+
 t_hash_elem	**create_table_env(char **envp);
 
 
