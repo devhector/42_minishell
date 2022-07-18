@@ -14,7 +14,7 @@ CFLAGS += $(addprefix -I , $(INCLUDE_PATH))
 
 vpath %.h $(INCLUDE_PATH)
 
-vpath %.c src src/hashTable src/env	src/tokenizer src/scan\
+vpath %.c src src/hashTable src/env	src/tokenizer src/scan \
 
 # src/builtin		\
 # src/parser		\

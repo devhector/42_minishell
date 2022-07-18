@@ -37,6 +37,10 @@ typedef struct s_shell
 void		minishell(char	**envp);
 void		get_tokens(t_shell *hell);
 
+void	quote_token(t_shell *hell, int *i);
+void	redirect_token(t_shell *hell, int *i);
+void	create_token(t_shell *hell, int start, int i);
+
 int			scan(t_shell *hell);
 int			tokenizer (t_shell	*hell);
 int			tokens_checker(t_shell *hell);
