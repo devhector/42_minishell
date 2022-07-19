@@ -54,6 +54,7 @@ int	scan(t_shell *hell)
 			create_token(hell, start, i);
 		}
 	}
+	printf("check_tokens: %d : %c\n", check_tokens(hell), (char)check_tokens(hell));
 	print_tokens(hell);
 	return (0);
 }
