@@ -14,14 +14,14 @@ CFLAGS += $(addprefix -I , $(INCLUDE_PATH))
 
 vpath %.h $(INCLUDE_PATH)
 
-vpath %.c src src/hashTable src/env src/scan \
+vpath %.c src src/hashTable src/env src/scan src/lexer \
 
 # src/builtin		\
 # src/parser		\
 # src/signal		\
 
 SRC =	main.c minishell.c hash_table.c hash_utils.c create_env.c \
-		tokens_func.c scan.c check_char.c check_tokens.c \
+		tokens_func.c scan.c check_char.c check_tokens.c lexer.c \
 		 
 
 

@@ -22,6 +22,7 @@ typedef struct s_scan
 {
 	char	*token;
 	char	*type;
+	char	*error;
 } t_scan;
 
 typedef struct s_shell
@@ -42,8 +43,9 @@ void	redirect_token(t_shell *hell, int *i);
 void	create_token(t_shell *hell, int start, int i);
 
 int			scan(t_shell *hell);
+int			lexer(t_shell *hell);
 int			tokens_checker(t_shell *hell);
-int	check_tokens(t_shell *hell);
+int			check_tokens(t_shell *hell);
 
 t_hash_elem	**create_table_env(char **envp);
 

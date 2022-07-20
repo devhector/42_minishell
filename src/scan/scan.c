@@ -27,7 +27,20 @@ void	print_tokens (t_shell *hell)
 	}
 	printf("tokenks: %d\n", ft_lstsize(hell->tokens));
 	printf("---------\n");
-	ft_lstclear(&hell->tokens, del);
+}
+
+void print_scan(t_list *tokens)
+{
+	t_list	*tmp;
+	t_scan	*scan;
+
+	tmp = tokens;
+	while (tmp)
+	{
+		scan = (t_scan *)tmp->content;
+		printf("%s - %s\n", scan->token, scan->type);
+		tmp = tmp->next;
+	}
 }
 
 int	scan(t_shell *hell)
@@ -35,6 +48,7 @@ int	scan(t_shell *hell)
 	int		i;
 	int		start;
 	char	*line;
+	int		error;
 
 	i = 0;
 	line = hell->line;
@@ -55,6 +69,17 @@ int	scan(t_shell *hell)
 		}
 	}
 	printf("check_tokens: %d : %c\n", check_tokens(hell), (char)check_tokens(hell));
+	error = check_tokens(hell);
+
 	print_tokens(hell);
+	lexer(hell);
+	print_scan(hell->tokens);
+
+	if (error) //esse if
+	{
+		ft_lstclear(&hell->tokens, del);
+		return (error);
+	}
+
 	return (0);
 }

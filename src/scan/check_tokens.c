@@ -1,11 +1,13 @@
 #include "minishell.h"
 
-int	check_quotes(char *str)
+int	check_quotes(t_scan *scan)
 {
-	int	i;
-	int	pos;
+	int		i;
+	int		pos;
+	char	*str;
 
 	i = 0;
+	str = scan->token;
 	while (str[i])
 	{
 		if (str[i] == '\'' || str[i] == '\"')
@@ -14,44 +16,80 @@ int	check_quotes(char *str)
 			while (str[i] && str[i] != str[pos])
 				i++;
 			if (str[i] == '\0')
+			{
+				scan->error = "unclosed quote";
 				return (1);
+			}
+			
 		}
 		i++;
 	}
 	return (0);
 }
 
-static int	check_redirections(char *str)
+static int	check_redirections(t_scan *scan)
 {
+	char	*str;
+
+	str = scan->token;
 	if (str[0] == '>')
 	{
 		if (str[1] == '\0')
 			return (0);
 		else if (str[1] == '>' && !(str[2] == '\0' || str[2] == '|'))
+		{
+			scan->error = "syntax error";
 			return (1);
+		}
 	}
 	else if (str[0] == '<' && !(str[1] == '<' || str[1] == '\0'))
+	{
+		scan->error = "syntax error";
 		return (1);
+	}
 	return (0);
 }
 
-int	check_backslash_semicolon(char *str)
+int	check_backslash_semicolon(t_scan *scan)
 {
-	int	i;
+	int		i;
+	char	*str;
 
 	i = 0;
+	str = scan->token;
 	while (str[i])
 	{
 		if (str[i] == '\\' || str[i] == ';')
+		{
+			scan->error = "syntax error";
 			return (1);
+		}
 		i++;
+	}
+	return (0);
+}
+
+int	check_follow_pipe(t_list *token)
+{
+	t_list	*next;
+	t_scan	*scan;
+	t_scan	*scan_next;
+
+	if (token->next == NULL)
+		return (0);
+	next = token->next;
+	scan = (t_scan *)token->content;
+	scan_next = (t_scan *)next->content;
+	if (scan->token[0] == '|' && scan_next->token[0] == '|')
+	{
+		scan->error = "syntax error";
+		return (1);
 	}
 	return (0);
 }
 
 int	check_tokens(t_shell *hell)
 {
-	char	*str;
 	t_list	*tmp;
 	t_scan	*scan;
 
@@ -60,14 +98,15 @@ int	check_tokens(t_shell *hell)
 	while (tmp)
 	{
 		scan = (t_scan *)tmp->content;
-		str = scan->token;
-		if (check_quotes(str))
+		if (check_quotes(scan))
 			return ('q');
-		if (check_redirections(str))
+		if (check_redirections(scan))
 			return ('r');
-		if (check_backslash_semicolon(str))
+		if (check_backslash_semicolon(scan))
 			return ('b');
+		if (check_follow_pipe(tmp))
+			return ('p');
 		tmp = tmp->next;
 	}
-	return (0);
+	return (1); //mudar isso para 0 por conta do if na linha 62 do scan.c
 }
