@@ -9,6 +9,8 @@ void del(void *content)
 		free(scan->token);
 	if (scan->type)
 		free(scan->type);
+	if (scan->error)
+		free(scan->error);
 	free(scan);
 }
 
@@ -72,8 +74,6 @@ int	scan(t_shell *hell)
 	error = check_tokens(hell);
 
 	print_tokens(hell);
-	print_scan(hell->tokens);
-	printf("---------\n");
 
 	if (lexer(hell))
 	{
@@ -85,11 +85,15 @@ int	scan(t_shell *hell)
 		{
 			scan = (t_scan *)tmp->content;
 			if (scan->error)
+			{
 				printf("lexer: %s\n", scan->error);
+				break ;
+			}
 			tmp = tmp->next;
 		}
 	}
-
+	print_scan(hell->tokens);
+	printf("---------\n");
 	if (syntax(hell))
 	{
 		t_scan *scan;
@@ -100,7 +104,10 @@ int	scan(t_shell *hell)
 		{
 			scan = (t_scan *)tmp->content;
 			if (scan->error)
+			{
 				printf("syntax: %s\n", scan->error);
+				break;
+			}
 			tmp = tmp->next;
 		}
 	}
