@@ -16,7 +16,7 @@ int	pipe_syntax(t_list *token)
 	return (0);
 }
 
-int	is_redirect(char *type)
+int	is_redirect_str(char *type)
 {
 	if (!ft_strcmp(type, LESS) || !ft_strcmp(type, GREAT)
 		|| !ft_strcmp(type, DLESS) || !ft_strcmp(type, DGREAT))
@@ -31,7 +31,7 @@ int	redirect_syntax(t_list *token)
 	t_scan	*next_scan;
 
 	scan = (t_scan *)token->content;
-	if (is_redirect(scan->type))
+	if (is_redirect_str(scan->type))
 	{
 		next = token->next;
 		if (!next)
