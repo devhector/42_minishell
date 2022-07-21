@@ -72,8 +72,38 @@ int	scan(t_shell *hell)
 	error = check_tokens(hell);
 
 	print_tokens(hell);
-	lexer(hell);
 	print_scan(hell->tokens);
+	printf("---------\n");
+
+	if (lexer(hell))
+	{
+		t_scan *scan;
+		t_list *tmp;
+
+		tmp = hell->tokens;
+		while (tmp)
+		{
+			scan = (t_scan *)tmp->content;
+			if (scan->error)
+				printf("lexer: %s\n", scan->error);
+			tmp = tmp->next;
+		}
+	}
+
+	if (syntax(hell))
+	{
+		t_scan *scan;
+		t_list *tmp;
+
+		tmp = hell->tokens;
+		while (tmp)
+		{
+			scan = (t_scan *)tmp->content;
+			if (scan->error)
+				printf("syntax: %s\n", scan->error);
+			tmp = tmp->next;
+		}
+	}
 
 	if (error) //esse if
 	{

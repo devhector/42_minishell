@@ -34,14 +34,13 @@ void	minishell(char	**envp)
 
 	cmdline = NULL;
 	hell.tokens = NULL;
-	hell.lexems = NULL;
 
 	// hell.env = create_table_env(envp);
 	// print_table(hell.env);
 	// clear_table(hell.env);
 	(void)envp;
 
-	while(42)
+	while (42)
 	{
 		i = 0;
 		hell.line = readline(cmdline);

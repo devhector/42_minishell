@@ -30,7 +30,6 @@ typedef struct s_shell
 	int			amt_tokens;
 	char		*line;
 	t_list		*tokens;
-	t_list		*lexems;
 	t_hash_elem	**env;
 
 } t_shell;
@@ -44,6 +43,7 @@ void	create_token(t_shell *hell, int start, int i);
 
 int			scan(t_shell *hell);
 int			lexer(t_shell *hell);
+int			syntax(t_shell *hell);
 int			tokens_checker(t_shell *hell);
 int			check_tokens(t_shell *hell);
 
