@@ -41,7 +41,7 @@ int	redirect_syntax(t_list *token)
 		}
 		next_scan = (t_scan *)next->content;
 		else if (ft_strcmp(next_scan->type, WORD)
-			&& ft_strcmp(next_scan->type, ASSIGNMENT))
+			|| ft_strcmp(next_scan->type, ASSIGNMENT))
 		{
 			scan->error = ft_strjoin(scan->type, ": syntax error");
 			return (1);
