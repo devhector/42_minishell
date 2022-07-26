@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 14:06:42 by hectfern          #+#    #+#             */
-/*   Updated: 2022/07/27 01:20:16 by hectfern         ###   ########.fr       */
+/*   Updated: 2022/07/27 01:26:41 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,5 @@ char	*ft_strjoin(char	*s1, char const	*s2)
 	while (s2[j])
 		str[i++] = s2[j++];
 	str[i] = '\0';
-	free(s1);
 	return (str);
 }
