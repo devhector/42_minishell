@@ -47,7 +47,13 @@ void	minishell(char	**envp)
 		// printf("%s\n", hell.line);
 		if (!ft_strlen(hell.line))
 			break;
-		scan(&hell);
+		if (scan(&hell))
+		{
+			printf("error\n");
+			free(hell.line);
+			free(cmdline);
+			continue;
+		}
 		free(hell.line);
 		free(cmdline);
 	}
