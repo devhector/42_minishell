@@ -17,7 +17,7 @@ int	check_quotes(t_scan *scan)
 				i++;
 			if (str[i] == '\0')
 			{
-				scan->error = "unclosed quote";
+				scan->error = ft_strdup("unclosed quote");
 				return (1);
 			}
 			
@@ -38,13 +38,13 @@ static int	check_redirections(t_scan *scan)
 			return (0);
 		else if (str[1] == '>' && !(str[2] == '\0' || str[2] == '|'))
 		{
-			scan->error = "syntax error";
+			scan->error = ft_strdup("syntax error");
 			return (1);
 		}
 	}
 	else if (str[0] == '<' && !(str[1] == '<' || str[1] == '\0'))
 	{
-		scan->error = "syntax error";
+		scan->error = ft_strdup("syntax error");
 		return (1);
 	}
 	return (0);
@@ -61,7 +61,7 @@ int	check_backslash_semicolon(t_scan *scan)
 	{
 		if (str[i] == '\\' || str[i] == ';')
 		{
-			scan->error = "syntax error";
+			scan->error = ft_strdup("syntax error");
 			return (1);
 		}
 		i++;
@@ -82,8 +82,35 @@ int	check_follow_pipe(t_list *token)
 	scan_next = (t_scan *)next->content;
 	if (scan->token[0] == '|' && scan_next->token[0] == '|')
 	{
-		scan->error = "syntax error";
+		scan->error = ft_strdup("syntax error");
 		return (1);
+	}
+	return (0);
+}
+
+int	check_variable(t_list *token)
+{
+	int		i;
+	t_scan	*scan;
+
+	scan = (t_scan *)token->content;
+	if (ft_strchr(scan->token, '='))
+	{
+		i = 0;
+		if (ft_isdigit(scan->token[i]))
+		{
+			scan->error = ft_strdup("syntax error");
+			return (1);
+		}
+		while (scan->token[i])
+		{
+			if (!ft_isalnum(scan->token[i]) && scan->token[i] != '_')
+			{
+				scan->error = ft_strdup("syntax error");
+				return (1);
+			}
+			i++;
+		}
 	}
 	return (0);
 }
@@ -106,6 +133,8 @@ int	check_tokens(t_shell *hell)
 			return ('b');
 		if (check_follow_pipe(tmp))
 			return ('p');
+		if (check_variable(tmp))
+			return ('v');
 		tmp = tmp->next;
 	}
 	return (1); //mudar isso para 0 por conta do if na linha 62 do scan.c
