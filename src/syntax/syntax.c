@@ -42,7 +42,7 @@ int	redirect_syntax(t_list *token)
 		next_scan = (t_scan *)next->content;
 		if (ft_strcmp(next_scan->type, WORD) && ft_strcmp(next_scan->type, ASSIGNMENT))
 		{
-			scan->error = ft_strjoin(scan->type, ": syntax error");
+			scan->error = ft_strjoin(next_scan->type, ": syntax error");
 			return (1);
 		}
 	}

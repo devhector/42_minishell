@@ -7,6 +7,7 @@ void	create_token(t_shell *hell, int start, int i)
 	scan = malloc(sizeof(t_scan));
 	scan->token = ft_substr(hell->line, start, i - start);
 	scan->type = NULL;
+	scan->error = NULL;
 	ft_lstadd_back(&hell->tokens, ft_lstnew(scan));
 }
 
