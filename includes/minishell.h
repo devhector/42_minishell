@@ -18,13 +18,6 @@
 #include "hash_table.h"
 #include "scan.h"
 
-typedef struct s_scan
-{
-	char	*token;
-	char	*type;
-	char	*error;
-} t_scan;
-
 typedef struct s_cmd
 {
 	t_list			*command;
