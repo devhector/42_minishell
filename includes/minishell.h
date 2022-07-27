@@ -17,13 +17,7 @@
 #include "libft.h"
 #include "hash_table.h"
 #include "scan.h"
-
-typedef struct s_cmd
-{
-	t_list			*command;
-	t_list			*redirect;
-	struct s_cmd	*next;
-} t_cmd;
+#include "command.h"
 
 typedef struct s_shell
 {
