@@ -25,11 +25,19 @@ typedef struct s_scan
 	char	*error;
 } t_scan;
 
+typedef struct s_cmd
+{
+	t_list			*command;
+	t_list			*redirect;
+	struct s_cmd	*next;
+} t_cmd;
+
 typedef struct s_shell
 {
 	int			amt_tokens;
 	char		*line;
 	t_list		*tokens;
+	t_list		*cmd;
 	t_hash_elem	**env;
 
 } t_shell;
