@@ -41,8 +41,13 @@ int			lexer(t_shell *hell);
 int			syntax(t_shell *hell);
 int			tokens_checker(t_shell *hell);
 int			check_tokens(t_shell *hell);
+int			is_redirect_str(char *type);
+
 
 t_hash_elem	**create_table_env(char **envp);
+
+int	command(t_shell *hell);
+
 
 
 #endif

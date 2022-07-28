@@ -3,8 +3,14 @@
 
 typedef struct s_cmd
 {
-	t_list			*command;
-	t_list			*redirect;
+	int		id;
+	int		fd_in;
+	int		fd_out;
+	int		pipe[2];
+	int		is_piped;
+	t_list	*command;
+	t_list	*redirect;
 } t_cmd;
+
 
 #endif
