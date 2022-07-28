@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/02 16:02:13 by hectfern          #+#    #+#             */
-/*   Updated: 2022/01/07 19:16:31 by hectfern         ###   ########.fr       */
+/*   Updated: 2022/07/28 10:30:54 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*ft_strdup(const char *s)
 	size_t		i;
 	char		*cp_str;
 
+	if (!s)
+		return (NULL);
 	i = 0;
 	while (s[i])
 		i++;
