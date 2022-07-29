@@ -5,7 +5,7 @@ LIBFT = $(LIBFT_PATH)/libft.a
 
 INCLUDE_PATH = includes
 
-CC =	@gcc
+CC =	@clang-12
 CFLAGS	= -Wall -Werror -Wextra -g
 
 LFLAGS =	-lreadline -L $(LIBFT_PATH) -lft
@@ -57,7 +57,7 @@ re: fclean all
 v:	all
 	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes \
 	--suppressions=readline.supp --trace-children=yes --verbose \
-	--log-file=valgrind-out.txt ./$(NAME)
+	-q ./$(NAME)
 
 r:	all
 	clear
