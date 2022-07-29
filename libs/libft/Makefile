@@ -1,6 +1,6 @@
 
 CFLAGS		= -Wall -Wextra -Werror -g
-CC			= gcc
+CC			= clang-12
 NAME		= libft.a
 FLAGLIB		= -rcs
 RM			= /bin/rm -f
