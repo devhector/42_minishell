@@ -23,6 +23,22 @@ void	add_cmd(t_list *token, t_cmd *cmd)
 	}
 }
 
+t_cmd	*create_cmd(void)
+{
+	t_cmd	*cmd;
+
+	cmd = (t_cmd *)malloc(sizeof(t_cmd));
+	if (!cmd)
+		return (NULL);
+	cmd->id = -42;
+	cmd->fd_in = -42;
+	cmd->fd_out = -42;
+	cmd->is_piped = -42;
+	cmd->command = NULL;
+	cmd->redirect = NULL;
+	return (cmd);
+}
+
 int	command(t_shell *hell)
 {
 	int		id;
@@ -31,16 +47,21 @@ int	command(t_shell *hell)
 
 	id = 0;
 	token = hell->tokens;
-	cmd = (t_cmd *)malloc(sizeof(t_cmd));
-		if (!cmd)
-			return (1);
-	cmd->command = NULL;
-	cmd->redirect = NULL;
+	cmd = create_cmd();
 	while (token)
 	{
 		if (!ft_strcmp(((t_scan *)token->content)->type, PIPE))
-			break ;
-		add_cmd(token, cmd);
+		{
+			cmd->id = id++;
+			cmd->is_piped = 1;
+			ft_lstadd_back(&hell->cmd, ft_lstnew(cmd));
+			cmd = create_cmd();
+			cmd->is_piped = 1;
+		}
+		else
+			add_cmd(token, cmd);
+		if (cmd->id == -42)
+			cmd->id = id++;
 		token = token->next;
 	}
 	ft_lstadd_back(&hell->cmd, ft_lstnew(cmd));
