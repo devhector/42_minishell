@@ -137,5 +137,5 @@ int	check_tokens(t_shell *hell)
 			return ('v');
 		tmp = tmp->next;
 	}
-	return (1); //mudar isso para 0 por conta do if na linha 62 do scan.c
+	return (0); //mudar isso para 0 por conta do if na linha 62 do scan.c
 }
