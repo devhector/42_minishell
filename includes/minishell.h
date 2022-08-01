@@ -48,6 +48,7 @@ char		*get_value_env(t_hash_elem **envp, char *str);
 t_hash_elem	**create_table_env(char **envp);
 
 int	command(t_shell *hell);
+int	expanse(t_shell *hell);
 
 
 
