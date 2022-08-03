@@ -24,7 +24,7 @@ int	tilde_expansor(t_scan *scan, t_shell *hell)
 		swap(scan, ft_strjoin(home, tmp));
 	else if (*tmp == '\0')
 		swap(scan, ft_strdup(home));
-	else 
+	else
 		home_len = 1;
 	return (home_len);
 }
@@ -35,21 +35,22 @@ int	var_expansor(t_scan *scan, t_shell *hell, int i)
 	char	*tmp;
 	char	*tmp2;
 	char	*tmp3;
-	int		len;
+	int		j;
 
-	len = 1;
+	j = 1;
 	tmp = &scan->token[i];
-	while ((ft_isalnum(tmp[len]) || tmp[len] == '_') && tmp[len])
-		len++;
-	new = ft_substr(tmp, 1, len - 1);
-	tmp = tmp + len;
+	while ((ft_isalnum(tmp[j]) || tmp[j] == '_') && tmp[j])
+		j++;
+	new = ft_substr(tmp, 1, j - 1);
+	tmp = tmp + j;
 	tmp2 = get_value_env(hell->env, new);
 	free(new);
 	if (!tmp2)
-		return ((len - 1) + i);
+		return ((j - 1) + i);
 	if (tmp)
 		tmp = ft_strjoin(tmp2, tmp);
-	tmp3 = ft_substr(scan->token, 0, ft_strlen(scan->token) - ft_strlen(&scan->token[i]));
+	tmp3 = ft_substr(scan->token, 0, ft_strlen(scan->token)
+			- ft_strlen(&scan->token[i]));
 	swap(scan, ft_strjoin(tmp3, tmp));
 	free(tmp3);
 	if (tmp)
@@ -57,11 +58,29 @@ int	var_expansor(t_scan *scan, t_shell *hell, int i)
 	return (ft_strlen(tmp2) + i);
 }
 
-int	token_expansor(t_scan *scan, t_shell *hell)
+void	check_var(t_scan *scan)
 {
 	int	i;
 
 	i = 0;
+	if (scan->token[i++] == '$')
+		while ((ft_isalnum(scan->token[i]) || scan->token[i] == '_')
+			&& scan->token[i])
+			i++;
+	if (scan->token[i] == '\0')
+	{
+		free(scan->token);
+		scan->token = ft_strdup("");
+	}
+}
+
+int	token_expansor(t_scan *scan, t_shell *hell)
+{
+	int	i;
+	int	is_simple_quoted;
+
+	i = 0;
+	is_simple_quoted = 0;
 	if (scan->token[i] == '~')
 	{
 		i = tilde_expansor(scan, hell);
@@ -70,10 +89,13 @@ int	token_expansor(t_scan *scan, t_shell *hell)
 	}
 	while (scan->token[i])
 	{
-		if (scan->token[i] == '$')
+		if (scan->token[i] == '\'')
+			is_simple_quoted = 1;
+		if (scan->token[i] == '$' && !is_simple_quoted)
 			i = var_expansor(scan, hell, i);
 		i++;
 	}
+	check_var(scan);
 	return (0);
 }
 
