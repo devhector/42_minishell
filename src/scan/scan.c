@@ -1,17 +1,56 @@
 #include "minishell.h"
 
-void del(void *content)
+void del_scan(void *content)
 {
 	t_scan *scan;
 
 	scan = (t_scan *)content;
 	if (scan->token)
+	{
 		free(scan->token);
+		scan->token = NULL;
+	}
 	if (scan->type)
+	{
 		free(scan->type);
+		scan->type = NULL;
+	}
 	if (scan->error)
+	{
 		free(scan->error);
+		scan->error = NULL;
+	}
 	free(scan);
+	scan = NULL;
+}
+
+void free_cmd (void *content)
+{
+	t_list	*tmp;
+	t_list	*tmp2;
+	t_cmd	*cmd;
+
+	cmd = (t_cmd *)content;
+	tmp = cmd->command;
+	while (tmp)
+	{
+		tmp2 = tmp->next;
+		tmp->next = NULL;
+		tmp->prev = NULL;
+		free(tmp);
+		tmp = tmp2;
+	}
+	tmp = cmd->redirect;
+	while (tmp)
+	{
+		tmp2 = tmp->next;
+		tmp->next = NULL;
+		tmp->prev = NULL;
+		free(tmp);
+		tmp = tmp2;
+	}
+	free(cmd);
+	cmd = NULL;
 }
 
 void	print_tokens (t_shell *hell)
@@ -40,7 +79,8 @@ void print_scan(t_list *tokens)
 	while (tmp)
 	{
 		scan = (t_scan *)tmp->content;
-		printf("%s - %s\n", scan->token, scan->type);
+		if (scan->token)
+			printf("%s - %s\n", scan->token, scan->type);
 		tmp = tmp->next;
 	}
 }
@@ -53,6 +93,7 @@ int	scan(t_shell *hell)
 	int		error;
 
 	i = 0;
+	hell->cmd = NULL;
 	line = hell->line;
 	while (line[i])
 	{
@@ -72,6 +113,11 @@ int	scan(t_shell *hell)
 	}
 	printf("check_tokens: %d : %c\n", check_tokens(hell), (char)check_tokens(hell));
 	error = check_tokens(hell);
+	if (error)
+	{
+		ft_lstclear(&hell->tokens, del_scan);
+		return (error);
+	}
 
 	print_tokens(hell);
 
@@ -111,12 +157,31 @@ int	scan(t_shell *hell)
 			tmp = tmp->next;
 		}
 	}
+	command(hell);
+	t_list *tmp;
+	t_list *tmp2;
 
-	if (error) //esse if
+	tmp = hell->cmd;
+	while (tmp)
 	{
-		ft_lstclear(&hell->tokens, del);
-		return (error);
+		tmp2 = ((t_cmd *)tmp->content)->command;
+		printf("command: \n");
+		print_scan(tmp2);
+		tmp2 = ((t_cmd *)tmp->content)->redirect;
+		printf("redirect: \n");
+		print_scan(tmp2);
+		tmp = tmp->next;
 	}
+	printf("-- segundo --\n");
+	expanse(hell);
+	print_scan(hell->tokens);
+
+	printf("-- terceiro --\n");
+	ft_lstclear(&hell->cmd, free_cmd);
+	hell->cmd = NULL;
+	printf("ft_lstclear cmd\n");
+	printf("-- quarto --\n");
+	ft_lstclear(&hell->tokens, del_scan);
 
 	return (0);
 }
