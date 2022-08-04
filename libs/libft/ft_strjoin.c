@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 14:06:42 by hectfern          #+#    #+#             */
-/*   Updated: 2022/07/21 18:05:19 by hectfern         ###   ########.fr       */
+/*   Updated: 2022/08/04 11:39:16 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*ft_strjoin(char	*s1, char const	*s2)
 	j = 0;
 	while (s2[j])
 		j++;
-	str = malloc(sizeof(char) * (i + j + 1));
+	str = ft_calloc(i + j + 4, sizeof(char));
 	if (!str)
 		return (NULL);
 	j = 0;
