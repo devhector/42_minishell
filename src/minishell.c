@@ -34,10 +34,10 @@ void	minishell(char	**envp)
 
 	cmdline = NULL;
 	hell.tokens = NULL;
+	hell.cmd = NULL;
 
-	// hell.env = create_table_env(envp);
-	// print_table(hell.env);
-	// clear_table(hell.env);
+	hell.env = create_table_env(envp);
+
 	(void)envp;
 
 	while (42)
@@ -46,9 +46,22 @@ void	minishell(char	**envp)
 		hell.line = readline(cmdline);
 		// printf("%s\n", hell.line);
 		if (!ft_strlen(hell.line))
-			break;
-		scan(&hell);
+		{
+			free(hell.line);
+			free(cmdline);
+			hell.line = NULL;
+			cmdline = NULL;
+			break ;
+		}
+		if (scan(&hell))
+		{
+			printf("error: scan\n");
+			free(hell.line);
+			free(cmdline);
+			continue;
+		}
 		free(hell.line);
 		free(cmdline);
 	}
+	clear_table(hell.env);
 }

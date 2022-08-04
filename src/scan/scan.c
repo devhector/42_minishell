@@ -1,17 +1,71 @@
 #include "minishell.h"
 
-void del(void *content)
+void del_scan(void *content)
 {
 	t_scan *scan;
 
 	scan = (t_scan *)content;
 	if (scan->token)
+	{
 		free(scan->token);
+		scan->token = NULL;
+	}
 	if (scan->type)
+	{
 		free(scan->type);
+		scan->type = NULL;
+	}
 	if (scan->error)
+	{
 		free(scan->error);
+		scan->error = NULL;
+	}
 	free(scan);
+	scan = NULL;
+}
+
+void free_array(char **array)
+{
+	int i;
+
+	i = 0;
+	while (array[i])
+	{
+		free(array[i]);
+		array[i] = NULL;
+		i++;
+	}
+	free(array);
+}
+
+void free_cmd (void *content)
+{
+	t_list	*tmp;
+	t_list	*tmp2;
+	t_cmd	*cmd;
+
+	cmd = (t_cmd *)content;
+	if (cmd->cmd_tab)
+	{
+		free_array(cmd->cmd_tab);
+		cmd->cmd_tab = NULL;
+	}
+	tmp = cmd->command;
+	while (tmp)
+	{
+		tmp2 = tmp->next;
+		free(tmp);
+		tmp = tmp2;
+	}
+	tmp = cmd->redirect;
+	while (tmp)
+	{
+		tmp2 = tmp->next;
+		free(tmp);
+		tmp = tmp2;
+	}
+	free(cmd);
+	cmd = NULL;
 }
 
 void	print_tokens (t_shell *hell)
@@ -40,7 +94,8 @@ void print_scan(t_list *tokens)
 	while (tmp)
 	{
 		scan = (t_scan *)tmp->content;
-		printf("%s - %s\n", scan->token, scan->type);
+		if (scan->token)
+			printf("%s - %s\n", scan->token, scan->type);
 		tmp = tmp->next;
 	}
 }
@@ -53,6 +108,7 @@ int	scan(t_shell *hell)
 	int		error;
 
 	i = 0;
+	hell->cmd = NULL;
 	line = hell->line;
 	while (line[i])
 	{
@@ -70,53 +126,29 @@ int	scan(t_shell *hell)
 			create_token(hell, start, i);
 		}
 	}
-	printf("check_tokens: %d : %c\n", check_tokens(hell), (char)check_tokens(hell));
 	error = check_tokens(hell);
+	if (error)
+	{
+		ft_lstclear(&hell->tokens, del_scan);
+		return (error);
+	}
 
 	print_tokens(hell);
 
 	if (lexer(hell))
 	{
-		t_scan *scan;
-		t_list *tmp;
-
-		tmp = hell->tokens;
-		while (tmp)
-		{
-			scan = (t_scan *)tmp->content;
-			if (scan->error)
-			{
-				printf("lexer: %s\n", scan->error);
-				break ;
-			}
-			tmp = tmp->next;
-		}
+		printf("lexer error\n");
+		return (1);
 	}
-	print_scan(hell->tokens);
-	printf("---------\n");
 	if (syntax(hell))
 	{
-		t_scan *scan;
-		t_list *tmp;
-
-		tmp = hell->tokens;
-		while (tmp)
-		{
-			scan = (t_scan *)tmp->content;
-			if (scan->error)
-			{
-				printf("syntax: %s\n", scan->error);
-				break;
-			}
-			tmp = tmp->next;
-		}
+		printf("syntax error\n");
+		return (1);
 	}
-
-	if (error) //esse if
+	if (command(hell))
 	{
-		ft_lstclear(&hell->tokens, del);
-		return (error);
+		printf("command error\n");
+		return (1);
 	}
-
 	return (0);
 }

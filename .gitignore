@@ -5,3 +5,7 @@ minishell
 *test*
 valgrind-out.txt
 notes.md
+<<<<<<< HEAD
+=======
+note.md
+>>>>>>> command

@@ -17,19 +17,14 @@
 #include "libft.h"
 #include "hash_table.h"
 #include "scan.h"
-
-typedef struct s_scan
-{
-	char	*token;
-	char	*type;
-	char	*error;
-} t_scan;
+#include "command.h"
 
 typedef struct s_shell
 {
 	int			amt_tokens;
 	char		*line;
 	t_list		*tokens;
+	t_list		*cmd;
 	t_hash_elem	**env;
 
 } t_shell;
@@ -46,8 +41,15 @@ int			lexer(t_shell *hell);
 int			syntax(t_shell *hell);
 int			tokens_checker(t_shell *hell);
 int			check_tokens(t_shell *hell);
+int			is_redirect_str(char *type);
 
+
+char		*get_value_env(t_hash_elem **envp, char *str);
 t_hash_elem	**create_table_env(char **envp);
+
+int	command(t_shell *hell);
+int	expanse(t_shell *hell);
+int	command_table(t_shell *hell);
 
 
 #endif
