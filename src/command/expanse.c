@@ -25,7 +25,7 @@ int	tilde_expansor(t_scan *scan, t_shell *hell)
 	else if (*tmp == '\0')
 		swap(scan, ft_strdup(home));
 	else
-		home_len = 1;
+		home_len = 0;
 	return (home_len);
 }
 
@@ -102,23 +102,29 @@ int	token_expansor(t_scan *scan, t_shell *hell)
 int	expanse(t_shell *hell)
 {
 	t_list	*tmp;
+	t_list	*cmd;
 	t_scan	*s;
 
-	tmp = ((t_cmd *)hell->cmd->content)->command;
-	while (tmp)
+	cmd = hell->cmd;
+	while (cmd)
 	{
-		s = (t_scan *)tmp->content;
-		if (token_expansor(s, hell))
-			return (1);
-		tmp = tmp->next;
+		tmp = ((t_cmd *)cmd->content)->command;
+		while (tmp)
+		{
+			s = (t_scan *)tmp->content;
+			if (token_expansor(s, hell))
+				return (1);
+			tmp = tmp->next;
+		}
+		tmp = ((t_cmd *)cmd->content)->redirect;
+		while (tmp)
+		{
+			s = (t_scan *)tmp->content;
+			if (token_expansor(s, hell))
+				return (1);
+			tmp = tmp->next;
+		}
+		cmd = cmd->next;
 	}
-	tmp = ((t_cmd *)hell->cmd->content)->redirect;
-	while (tmp)
-	{
-		s = (t_scan *)tmp->content;
-		if (token_expansor(s, hell))
-			return (1);
-		tmp = tmp->next;
-	}
-	return (0);
+	return (command_table(hell));
 }
