@@ -34,6 +34,7 @@ t_cmd	*create_cmd(void)
 	cmd->fd_in = -42;
 	cmd->fd_out = -42;
 	cmd->is_piped = -42;
+	cmd->cmd_tab = NULL;
 	cmd->command = NULL;
 	cmd->redirect = NULL;
 	return (cmd);
@@ -65,5 +66,5 @@ int	command(t_shell *hell)
 		token = token->next;
 	}
 	ft_lstadd_back(&hell->cmd, ft_lstnew(cmd));
-	return (0);
+	return (expanse(hell));
 }
