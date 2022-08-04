@@ -24,6 +24,20 @@ void del_scan(void *content)
 	scan = NULL;
 }
 
+void free_array(char **array)
+{
+	int i;
+
+	i = 0;
+	while (array[i])
+	{
+		free(array[i]);
+		array[i] = NULL;
+		i++;
+	}
+	free(array);
+}
+
 void free_cmd (void *content)
 {
 	t_list	*tmp;
@@ -31,12 +45,15 @@ void free_cmd (void *content)
 	t_cmd	*cmd;
 
 	cmd = (t_cmd *)content;
+	if (cmd->cmd_tab)
+	{
+		free_array(cmd->cmd_tab);
+		cmd->cmd_tab = NULL;
+	}
 	tmp = cmd->command;
 	while (tmp)
 	{
 		tmp2 = tmp->next;
-		tmp->next = NULL;
-		tmp->prev = NULL;
 		free(tmp);
 		tmp = tmp2;
 	}
@@ -44,8 +61,6 @@ void free_cmd (void *content)
 	while (tmp)
 	{
 		tmp2 = tmp->next;
-		tmp->next = NULL;
-		tmp->prev = NULL;
 		free(tmp);
 		tmp = tmp2;
 	}
@@ -111,7 +126,6 @@ int	scan(t_shell *hell)
 			create_token(hell, start, i);
 		}
 	}
-	printf("check_tokens: %d : %c\n", check_tokens(hell), (char)check_tokens(hell));
 	error = check_tokens(hell);
 	if (error)
 	{
@@ -123,65 +137,18 @@ int	scan(t_shell *hell)
 
 	if (lexer(hell))
 	{
-		t_scan *scan;
-		t_list *tmp;
-
-		tmp = hell->tokens;
-		while (tmp)
-		{
-			scan = (t_scan *)tmp->content;
-			if (scan->error)
-			{
-				printf("lexer: %s\n", scan->error);
-				break ;
-			}
-			tmp = tmp->next;
-		}
+		printf("lexer error\n");
+		return (1);
 	}
-	print_scan(hell->tokens);
-	printf("---------\n");
 	if (syntax(hell))
 	{
-		t_scan *scan;
-		t_list *tmp;
-
-		tmp = hell->tokens;
-		while (tmp)
-		{
-			scan = (t_scan *)tmp->content;
-			if (scan->error)
-			{
-				printf("syntax: %s\n", scan->error);
-				break;
-			}
-			tmp = tmp->next;
-		}
+		printf("syntax error\n");
+		return (1);
 	}
-	command(hell);
-	t_list *tmp;
-	t_list *tmp2;
-
-	tmp = hell->cmd;
-	while (tmp)
+	if (command(hell))
 	{
-		tmp2 = ((t_cmd *)tmp->content)->command;
-		printf("command: \n");
-		print_scan(tmp2);
-		tmp2 = ((t_cmd *)tmp->content)->redirect;
-		printf("redirect: \n");
-		print_scan(tmp2);
-		tmp = tmp->next;
+		printf("command error\n");
+		return (1);
 	}
-	printf("-- segundo --\n");
-	expanse(hell);
-	print_scan(hell->tokens);
-
-	printf("-- terceiro --\n");
-	ft_lstclear(&hell->cmd, free_cmd);
-	hell->cmd = NULL;
-	printf("ft_lstclear cmd\n");
-	printf("-- quarto --\n");
-	ft_lstclear(&hell->tokens, del_scan);
-
 	return (0);
 }
