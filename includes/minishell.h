@@ -49,7 +49,7 @@ t_hash_elem	**create_table_env(char **envp);
 
 int	command(t_shell *hell);
 int	expanse(t_shell *hell);
-
+int	command_table(t_shell *hell);
 
 
 #endif
