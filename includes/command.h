@@ -8,10 +8,9 @@ typedef struct s_cmd
 	int		fd_out;
 	int		pipe[2];
 	int		is_piped;
-	char	**commands;
+	char	**cmd_tab;
 	t_list	*command;
 	t_list	*redirect;
 } t_cmd;
-
 
 #endif
