@@ -14,6 +14,10 @@
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <unistd.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <wait.h>
 #include "libft.h"
 #include "hash_table.h"
 #include "scan.h"
@@ -26,6 +30,7 @@ typedef struct s_shell
 	t_list		*tokens;
 	t_list		*cmd;
 	t_hash_elem	**env;
+	char		*error;
 
 } t_shell;
 
