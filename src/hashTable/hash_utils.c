@@ -14,8 +14,10 @@ void	init_table(t_hash_elem **table)
 
 void	clear_element(t_hash_elem *elem)
 {
-	free(elem->key);
-	free(elem->data);
+	if (elem->key)
+		free(elem->key);
+	if (elem->data)
+		free(elem->data);
 	if (elem)
 		free(elem);
 	elem = NULL;
