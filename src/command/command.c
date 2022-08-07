@@ -33,7 +33,8 @@ t_cmd	*create_cmd(void)
 	cmd->id = -42;
 	cmd->fd_in = -42;
 	cmd->fd_out = -42;
-	cmd->is_piped = -42;
+	cmd->pipe_d = 0;
+	cmd->is_piped = 0;
 	cmd->cmd_tab = NULL;
 	cmd->command = NULL;
 	cmd->redirect = NULL;
@@ -57,7 +58,6 @@ int	command(t_shell *hell)
 			cmd->is_piped = 1;
 			ft_lstadd_back(&hell->cmd, ft_lstnew(cmd));
 			cmd = create_cmd();
-			cmd->is_piped = 1;
 		}
 		else
 			add_cmd(token, cmd);
