@@ -31,7 +31,7 @@ typedef struct s_shell
 	t_list		*cmd;
 	t_hash_elem	**env;
 	char		*error;
-
+	char		**envp;
 } t_shell;
 
 void		minishell(char	**envp);
@@ -41,6 +41,8 @@ void	quote_token(t_shell *hell, int *i);
 void	redirect_token(t_shell *hell, int *i);
 void	create_token(t_shell *hell, int start, int i);
 
+void del_scan(void *content);
+
 int			scan(t_shell *hell);
 int			lexer(t_shell *hell);
 int			syntax(t_shell *hell);
@@ -49,11 +51,13 @@ int			check_tokens(t_shell *hell);
 int			is_redirect_str(char *type);
 
 
+char		**hash_env(t_shell *hell);
 char		*get_value_env(t_hash_elem **envp, char *str);
 t_hash_elem	**create_table_env(char **envp);
 
 int	command(t_shell *hell);
 int	expanse(t_shell *hell);
+int	execute(t_shell *hell);
 int	command_table(t_shell *hell);
 
 
