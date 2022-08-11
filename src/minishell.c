@@ -35,6 +35,8 @@ void	minishell(char	**envp)
 	cmdline = NULL;
 	hell.tokens = NULL;
 	hell.cmd = NULL;
+	hell.error = NULL;
+	hell.envp = NULL;
 
 	hell.env = create_table_env(envp);
 
@@ -60,8 +62,14 @@ void	minishell(char	**envp)
 			free(cmdline);
 			continue;
 		}
+		execute(&hell);
 		free(hell.line);
+		if (hell.error)
+			free(hell.error);
 		free(cmdline);
+		ft_lstclear(&hell.tokens, del_scan);
+		ft_lstclear(&hell.cmd, free_cmd);
 	}
 	clear_table(hell.env);
+	free_array(hell.envp);
 }
