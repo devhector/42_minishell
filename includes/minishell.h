@@ -60,5 +60,14 @@ int	expanse(t_shell *hell);
 int	execute(t_shell *hell);
 int	command_table(t_shell *hell);
 
+int		open_pipes(t_shell *hell);
+int		redirects(t_shell *hell);
+void	close_fd(t_cmd *cmd);
+void	open_file(t_list *redirect, t_cmd *cmd);
+char	*path(t_shell *hell, t_cmd *cmd);
+
+void	free_array(char **str);
+void	del_scan(void *content);
+void	free_cmd (void *content);
 
 #endif
