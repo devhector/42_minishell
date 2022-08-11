@@ -63,14 +63,28 @@ void	check_var(t_scan *scan)
 	int	i;
 
 	i = 0;
-	if (scan->token[i++] == '$')
+	if (scan->token[i] == '$')
+	{
+		i++;
 		while ((ft_isalnum(scan->token[i]) || scan->token[i] == '_')
 			&& scan->token[i])
 			i++;
-	if (scan->token[i] == '\0')
+	}
+	if (scan->token[i] == '$' && scan->token[i + 1] == '\0')
 	{
 		free(scan->token);
 		scan->token = ft_strdup("");
+	}
+}
+
+void	remove_quote(t_scan *scan)
+{
+	char	*tmp;
+	if (has_quote(scan->token))
+	{
+		tmp = ft_substr(scan->token, 1, ft_strlen(scan->token) - 2);
+		free(scan->token);
+		scan->token = tmp;
 	}
 }
 
@@ -96,6 +110,7 @@ int	token_expansor(t_scan *scan, t_shell *hell)
 		i++;
 	}
 	check_var(scan);
+	remove_quote(scan);
 	return (0);
 }
 
