@@ -51,36 +51,40 @@ int	space_in_cmd(char *str, t_shell *hell)
 	return (0);
 }
 
-int	execute_cmd(t_shell *hell)
+int	execute_cmd(t_list *cmd, int *i, pid_t *pid, t_shell *hell)
 {
-	int		i;
-	pid_t	pid[420];
-	t_list	*tmp;
-
-	i = 0;
-	tmp = hell->cmd;
-	while (tmp)
+	while (cmd)
 	{
-		if (space_in_cmd(((t_cmd *)tmp->content)->cmd_tab[0], hell))
+		if (space_in_cmd(((t_cmd *)cmd->content)->cmd_tab[0], hell))
 			return (1);
-		((t_cmd *)tmp->content)->path = path(hell, ((t_cmd *)tmp->content));
-		if (((t_cmd *)tmp->content)->path)
+		((t_cmd *)cmd->content)->path = path(hell, (t_cmd *)cmd->content);
+		if (((t_cmd *)cmd->content)->path)
 		{
-			pid[i] = fork();
-			if (pid[i] == 0)
-				execute_child(((t_cmd *)tmp->content), hell);
-			i++;
-			close_fd(tmp->content);
+			if (access(((t_cmd *)cmd->content)->path, X_OK))
+			{
+				free(((t_cmd *)cmd->content)->path);
+				hell->error = ft_strjoin("arquivo ou diretório inexistente", \
+							((t_cmd *)cmd->content)->path);
+				return (1);
+			}
+			pid[*i] = fork();
+			if (pid[*i] == 0)
+				execute_child((t_cmd *)cmd->content, hell);
+			i += 1;
+			close_fd(cmd->content);
+			free(((t_cmd *)cmd->content)->path);
 		}
-		free(((t_cmd *)tmp->content)->path);
-		tmp = tmp->next;
+		cmd = cmd->next;
 	}
-	wait_pids(pid, i);
 	return (0);
 }
 
 int	execute(t_shell *hell)
 {
+	int		i;
+	pid_t	pid[420];
+
+	i = 0;
 	if (hell->envp)
 		free_array(hell->envp);
 	hell->envp = hash_env(hell);
@@ -88,7 +92,8 @@ int	execute(t_shell *hell)
 		return (1);
 	if (redirects(hell))
 		return (1);
-	if (execute_cmd(hell))
+	if (execute_cmd(hell->cmd, &i, pid, hell))
 		return (1);
+	wait_pids(pid, i);
 	return (0);
 }
