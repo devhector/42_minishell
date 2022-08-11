@@ -11,5 +11,6 @@ typedef struct s_scan
 int	is_quote(char c);
 int	is_redirect(char c);
 int	is_separator(char c);
+int	has_quote(char *str);
 
 #endif
