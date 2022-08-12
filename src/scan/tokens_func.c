@@ -4,7 +4,7 @@ void	create_token(t_shell *hell, int start, int i)
 {
 	t_scan	*scan;
 
-	scan = malloc(sizeof(t_scan));
+	scan = (t_scan *)malloc(sizeof(t_scan));
 	scan->token = ft_substr(hell->line, start, i - start);
 	scan->type = NULL;
 	scan->error = NULL;
