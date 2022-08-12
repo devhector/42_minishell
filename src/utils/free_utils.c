@@ -41,32 +41,32 @@ void	del_scan(void *content)
 	scan = NULL;
 }
 
-void	free_cmd (void *content)
+static void	free_cmd_aux(t_list *tmp)
 {
-	t_list	*tmp;
 	t_list	*tmp2;
+
+	while(tmp)
+	{
+		tmp2 = tmp->next;
+		free(tmp);
+		tmp = tmp2;
+	}
+}
+
+void	free_cmd(void *content)
+{
 	t_cmd	*cmd;
 
 	cmd = (t_cmd *)content;
 	if (cmd->cmd_tab)
-	{
 		free_array(cmd->cmd_tab);
-		cmd->cmd_tab = NULL;
-	}
-	tmp = cmd->command;
-	while (tmp)
+	if (cmd->path)
 	{
-		tmp2 = tmp->next;
-		free(tmp);
-		tmp = tmp2;
+		free(cmd->path);
+		cmd->path = NULL;
 	}
-	tmp = cmd->redirect;
-	while (tmp)
-	{
-		tmp2 = tmp->next;
-		free(tmp);
-		tmp = tmp2;
-	}
+	free_cmd_aux(cmd->command);
+	free_cmd_aux(cmd->redirect);
 	free(cmd);
 	cmd = NULL;
 }
