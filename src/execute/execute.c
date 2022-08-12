@@ -22,7 +22,7 @@ void	execute_child(t_cmd *cmd, t_shell *hell)
 	}
 }
 
-void	wait_pids(pid_t pid[420], int i)
+void	wait_pids(pid_t *pid, int i)
 {
 	int	status;
 	int	j;
@@ -51,40 +51,52 @@ int	space_in_cmd(char *str, t_shell *hell)
 	return (0);
 }
 
-int	execute_cmd(t_list *cmd, int *i, pid_t *pid, t_shell *hell)
+int	is_path_ok(char *str, t_shell *hell)
 {
-	while (cmd)
+	if (access(str, F_OK) == -1)
 	{
-		if (space_in_cmd(((t_cmd *)cmd->content)->cmd_tab[0], hell))
-			return (1);
-		((t_cmd *)cmd->content)->path = path(hell, (t_cmd *)cmd->content);
-		if (((t_cmd *)cmd->content)->path)
-		{
-			if (access(((t_cmd *)cmd->content)->path, X_OK))
-			{
-				free(((t_cmd *)cmd->content)->path);
-				hell->error = ft_strjoin("arquivo ou diretório inexistente", \
-							((t_cmd *)cmd->content)->path);
-				return (1);
-			}
-			pid[*i] = fork();
-			if (pid[*i] == 0)
-				execute_child((t_cmd *)cmd->content, hell);
-			i += 1;
-			close_fd(cmd->content);
-			free(((t_cmd *)cmd->content)->path);
-		}
-		cmd = cmd->next;
+		hell->error = ft_strjoin(str, " : No such file or directory");
+		return (1);
 	}
+	return (0);
+}
+
+int	execute_cmd(t_shell *hell, pid_t *pid, t_list *tmp)
+{
+	int		i;
+
+	i = 0;
+	tmp = hell->cmd;
+	while (tmp)
+	{
+		if (space_in_cmd(((t_cmd *)tmp->content)->cmd_tab[0], hell))
+			return (1);
+		((t_cmd *)tmp->content)->path = path(hell, ((t_cmd *)tmp->content));
+		if (((t_cmd *)tmp->content)->path
+			&& !is_path_ok(((t_cmd *)tmp->content)->path, hell))
+		{
+			pid[i] = fork();
+			if (pid[i] == 0)
+				execute_child(((t_cmd *)tmp->content), hell);
+			i++;
+			close_fd(tmp->content);
+		}
+		else
+			return (1);
+		free(((t_cmd *)tmp->content)->path);
+		((t_cmd *)tmp->content)->path = NULL;
+		tmp = tmp->next;
+	}
+	wait_pids(pid, i);
 	return (0);
 }
 
 int	execute(t_shell *hell)
 {
-	int		i;
 	pid_t	pid[420];
+	t_list	*tmp;
 
-	i = 0;
+	tmp = NULL;
 	if (hell->envp)
 		free_array(hell->envp);
 	hell->envp = hash_env(hell);
@@ -92,8 +104,7 @@ int	execute(t_shell *hell)
 		return (1);
 	if (redirects(hell))
 		return (1);
-	if (execute_cmd(hell->cmd, &i, pid, hell))
+	if (execute_cmd(hell, pid, tmp))
 		return (1);
-	wait_pids(pid, i);
 	return (0);
 }
