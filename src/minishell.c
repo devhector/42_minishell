@@ -28,11 +28,11 @@ void print_table(t_hash_elem **table)
 void	minishell(char	**envp)
 {
 
-	char	*cmdline;
+	// char	*cmdline;
 	int		i;
 	t_shell	hell;
 
-	cmdline = NULL;
+	// cmdline = NULL;
 	hell.tokens = NULL;
 	hell.cmd = NULL;
 	hell.error = NULL;
@@ -45,28 +45,29 @@ void	minishell(char	**envp)
 	while (42)
 	{
 		i = 0;
-		hell.line = readline(cmdline);
+		hell.line = readline("$> ");
 		// printf("%s\n", hell.line);
 		if (!ft_strlen(hell.line))
 		{
-			free(hell.line);
-			free(cmdline);
+			if (hell.line)
+				free(hell.line);
+			// free(cmdline);
 			hell.line = NULL;
-			cmdline = NULL;
+			// cmdline = NULL;
 			break ;
 		}
 		if (scan(&hell))
 		{
 			printf("error: scan\n");
 			free(hell.line);
-			free(cmdline);
+			// free(cmdline);
 			continue;
 		}
 		execute(&hell);
 		free(hell.line);
 		if (hell.error)
 			free(hell.error);
-		free(cmdline);
+		// free(cmdline);
 		ft_lstclear(&hell.tokens, del_scan);
 		ft_lstclear(&hell.cmd, free_cmd);
 	}
