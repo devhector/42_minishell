@@ -83,6 +83,10 @@ int	redirects(t_shell *hell)
 			open_file(tmp2, (t_cmd *)tmp->content);
 			tmp2 = tmp2->next->next;
 		}
+		if (((t_cmd *)tmp->content)->fd_in == -42)
+			((t_cmd *)tmp->content)->fd_in = STDIN_FILENO;
+		if (((t_cmd *)tmp->content)->fd_out == -42)
+			((t_cmd *)tmp->content)->fd_out = STDOUT_FILENO;
 		tmp = tmp->next;
 	}
 	return (0);

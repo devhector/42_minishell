@@ -17,6 +17,7 @@ void	read_doc(char	*delimiter, int fd)
 			free(line);
 	}
 	close(fd);
+	exit(0);
 }
 
 int	here_doc(char *delimiter)
