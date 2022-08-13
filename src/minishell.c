@@ -46,7 +46,7 @@ void	minishell(char	**envp)
 	{
 		i = 0;
 		hell.line = readline("$> ");
-		// printf("%s\n", hell.line);
+		add_history(hell.line);
 		if (!ft_strlen(hell.line))
 		{
 			if (hell.line)

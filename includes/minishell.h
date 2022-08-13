@@ -70,4 +70,6 @@ void	free_array(char **str);
 void	del_scan(void *content);
 void	free_cmd (void *content);
 
+int		here_doc(char *delimiter);
+
 #endif

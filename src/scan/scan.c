@@ -65,7 +65,7 @@ int	scan(t_shell *hell)
 		return (error);
 	}
 
-	print_tokens(hell);
+	// print_tokens(hell);
 
 	if (lexer(hell))
 	{
