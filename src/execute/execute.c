@@ -1,21 +1,26 @@
 #include "minishell.h"
 
+void	close_all_fd(t_shell *hell)
+{
+	t_list	*tmp;
+	t_cmd	*cmd;
+
+	tmp = hell->cmd;
+	while (tmp)
+	{
+		cmd = (t_cmd *)tmp->content;
+		close_fd(cmd);
+		tmp = tmp->next;
+	}
+}
+
 void	execute_child(t_cmd *cmd, t_shell *hell)
 {
-	t_list	*l_cmd;
-	t_cmd	*c_cmd;
-
 	if (cmd->fd_in > 2)
 		dup2(cmd->fd_in, STDIN_FILENO);
 	if (cmd->fd_out > 2)
 		dup2(cmd->fd_out, STDOUT_FILENO);
-	l_cmd = hell->cmd;
-	while (l_cmd)
-	{
-		c_cmd = (t_cmd *)l_cmd->content;
-		close_fd(c_cmd);
-		l_cmd = l_cmd->next;
-	}
+	close_all_fd(hell);
 	if (execve(cmd->path, cmd->cmd_tab, hell->envp) == -1)
 	{
 		hell->error = ft_strdup("execve error");
@@ -106,5 +111,6 @@ int	execute(t_shell *hell)
 		return (1);
 	if (execute_cmd(hell, pid, tmp))
 		return (1);
+	close_all_fd(hell);
 	return (0);
 }
