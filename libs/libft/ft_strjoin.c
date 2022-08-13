@@ -6,7 +6,11 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 14:06:42 by hectfern          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/07/27 01:26:41 by hectfern         ###   ########.fr       */
+=======
+/*   Updated: 2022/08/04 11:39:16 by hectfern         ###   ########.fr       */
+>>>>>>> 0611a22 (fix: bug fix)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +32,7 @@ char	*ft_strjoin(char	*s1, char const	*s2)
 	j = 0;
 	while (s2[j])
 		j++;
-	str = malloc(sizeof(char) * (i + j + 1));
+	str = ft_calloc(i + j + 4, sizeof(char));
 	if (!str)
 		return (NULL);
 	j = 0;
