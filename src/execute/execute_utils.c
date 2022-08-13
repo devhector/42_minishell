@@ -36,12 +36,28 @@ void	close_fd(t_cmd *cmd)
 		close(cmd->fd_out);
 }
 
+void	close_fd_redirect(t_scan *redirect, t_cmd *cmd)
+{
+	if (!ft_strcmp(redirect->type, GREAT) || !ft_strcmp(redirect->type, DGREAT))
+	{
+		if (cmd->fd_out != -42)
+			close(cmd->fd_out);
+	}
+	else if (!ft_strcmp(redirect->type, LESS)
+			|| !ft_strcmp(redirect->type, DLESS))
+	{
+		if (cmd->fd_in != -42)
+			close(cmd->fd_in);
+	}
+}
+
 void	open_file(t_list *redirect, t_cmd *cmd)
 {
 	t_scan	*scan;
 	t_scan	*scan_n;
 
 	scan = (t_scan *)redirect->content;
+	close_fd_redirect(scan, cmd);
 	scan_n = (t_scan *)redirect->next->content;
 	if (!ft_strcmp(scan->type, GREAT))
 		cmd->fd_out = open(scan_n->token, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -49,6 +65,8 @@ void	open_file(t_list *redirect, t_cmd *cmd)
 		cmd->fd_out = open(scan_n->token, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else if (!ft_strcmp(scan->type, LESS))
 		cmd->fd_in = open(scan_n->token, O_RDONLY);
+	else if (!ft_strcmp(scan->type, DLESS))
+		cmd->fd_in = here_doc(scan_n->token);
 }
 
 int	redirects(t_shell *hell)
