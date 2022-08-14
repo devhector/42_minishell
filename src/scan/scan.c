@@ -40,7 +40,6 @@ int	scan(t_shell *hell)
 	int		error;
 
 	i = 0;
-	hell->cmd = NULL;
 	line = hell->line;
 	while (line[i])
 	{

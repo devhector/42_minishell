@@ -35,7 +35,7 @@ int	command_table(t_shell *hell)
 		cmd_tmp->cmd_tab = create_cmd_tab(token);
 		if (!cmd_tmp->cmd_tab)
 		{
-			((t_scan *)cmd->content)->error = ft_strdup("malloc error");
+			((t_scan *)cmd->content)->error = ft_strdup(": malloc error");
 			return (1);
 		}
 		cmd = cmd->next;

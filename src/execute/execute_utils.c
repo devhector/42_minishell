@@ -18,8 +18,6 @@ int	open_pipes(t_shell *hell)
 				hell->error = ft_strdup("pipe error");
 				return (1);
 			}
-			cmd->pipe_d = 1;
-			cmd_n->pipe_d = 1;
 			cmd->fd_out = cmd->pipe[1];
 			cmd_n->fd_in = cmd->pipe[0];
 		}

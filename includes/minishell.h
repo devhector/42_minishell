@@ -25,7 +25,6 @@
 
 typedef struct s_shell
 {
-	int			amt_tokens;
 	char		*line;
 	t_list		*tokens;
 	t_list		*cmd;

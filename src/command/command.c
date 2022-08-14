@@ -29,12 +29,15 @@ t_cmd	*create_cmd(void)
 
 	cmd = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!cmd)
+	{
+		cmd->error = ft_strdup(": malloc error");
 		return (NULL);
-	cmd->id = -42;
+	}
 	cmd->fd_in = -42;
 	cmd->fd_out = -42;
-	cmd->pipe_d = 0;
 	cmd->is_piped = 0;
+	cmd->path = NULL;
+	cmd->error = NULL;
 	cmd->cmd_tab = NULL;
 	cmd->command = NULL;
 	cmd->redirect = NULL;
@@ -43,26 +46,25 @@ t_cmd	*create_cmd(void)
 
 int	command(t_shell *hell)
 {
-	int		id;
 	t_cmd	*cmd;
 	t_list	*token;
 
-	id = 0;
 	token = hell->tokens;
 	cmd = create_cmd();
+	if (!cmd)
+		return (1);
 	while (token)
 	{
 		if (!ft_strcmp(((t_scan *)token->content)->type, PIPE))
 		{
-			cmd->id = id++;
 			cmd->is_piped = 1;
 			ft_lstadd_back(&hell->cmd, ft_lstnew(cmd));
 			cmd = create_cmd();
+			if (!cmd)
+				return (1);
 		}
 		else
 			add_cmd(token, cmd);
-		if (cmd->id == -42)
-			cmd->id = id++;
 		token = token->next;
 	}
 	ft_lstadd_back(&hell->cmd, ft_lstnew(cmd));
