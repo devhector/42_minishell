@@ -14,7 +14,6 @@ void	free_array(char **str)
 	}
 	if (str)
 		free(str);
-	str = NULL;
 }
 
 void	del_scan(void *content)
