@@ -103,7 +103,10 @@ int	execute(t_shell *hell)
 
 	tmp = NULL;
 	if (hell->envp)
+	{
 		free_array(hell->envp);
+		hell->envp = NULL;
+	}
 	hell->envp = hash_env(hell);
 	if (open_pipes(hell))
 		return (1);
