@@ -56,9 +56,8 @@ fclean: clean
 re: fclean all
 
 v:	all
-	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes \
-	--suppressions=readline.supp --verbose \
-	-q ./$(NAME)
+	@valgrind --suppressions=./r.supp --leak-check=full --track-origins=yes \
+	--trace-children=yes --show-leak-kinds=all -q ./$(NAME)
 
 r:	all
 	clear
