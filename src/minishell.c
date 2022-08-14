@@ -60,17 +60,28 @@ void	minishell(char	**envp)
 		{
 			printf("error: scan\n");
 			free(hell.line);
+			hell.line = NULL;
 			// free(cmdline);
 			continue;
 		}
 		execute(&hell);
 		free(hell.line);
+		hell.line = NULL;
 		if (hell.error)
+		{
 			free(hell.error);
+			hell.error = NULL;
+		}
 		// free(cmdline);
-		ft_lstclear(&hell.tokens, del_scan);
-		ft_lstclear(&hell.cmd, free_cmd);
+		if (hell.tokens)
+			ft_lstclear(&hell.tokens, del_scan);
+		if (hell.cmd)
+			ft_lstclear(&hell.cmd, free_cmd);
+		if (hell.envp)
+		{
+			free_array(hell.envp);
+			hell.envp = NULL;
+		}
 	}
 	clear_table(hell.env);
-	free_array(hell.envp);
 }
