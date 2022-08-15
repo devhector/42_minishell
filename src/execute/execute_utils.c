@@ -116,5 +116,5 @@ char	*path(t_shell *hell, t_cmd *cmd)
 		i++;
 	}
 	free_array(path_env);
-	return (NULL);
+	return (ft_strdup(cmd->cmd_tab[0]));
 }
