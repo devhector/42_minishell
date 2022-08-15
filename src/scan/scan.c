@@ -37,7 +37,6 @@ int	scan(t_shell *hell)
 	int		i;
 	int		start;
 	char	*line;
-	int		error;
 
 	i = 0;
 	line = hell->line;
@@ -57,29 +56,13 @@ int	scan(t_shell *hell)
 			create_token(hell, start, i);
 		}
 	}
-	error = check_tokens(hell);
-	if (error)
-	{
-		ft_lstclear(&hell->tokens, del_scan);
-		return (error);
-	}
-
-	// print_tokens(hell);
-
+	if (check_tokens(hell))
+		return (1);
 	if (lexer(hell))
-	{
-		printf("lexer error\n");
 		return (1);
-	}
 	if (syntax(hell))
-	{
-		printf("syntax error\n");
 		return (1);
-	}
 	if (command(hell))
-	{
-		printf("command error\n");
 		return (1);
-	}
 	return (0);
 }
