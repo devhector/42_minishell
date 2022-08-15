@@ -1,5 +1,15 @@
 #include "minishell.h"
 
+void	exit_errno(char *str, int errnb)
+{
+	if (errnb == EACCES)
+		printf("%s: Permission denied\n", str);
+	else if (errnb == ENOENT)
+		printf("%s: No such file or directory\n", str);
+	else
+		printf("%s: Command not found\n", str);
+}
+
 void	close_all_fd(t_shell *hell)
 {
 	t_list	*tmp;
@@ -21,10 +31,9 @@ void	execute_child(t_cmd *cmd, t_shell *hell)
 	if (cmd->fd_out > 2)
 		dup2(cmd->fd_out, STDOUT_FILENO);
 	close_all_fd(hell);
-	if (execve(cmd->path, cmd->cmd_tab, hell->envp) == -1)
-	{
-		hell->error = ft_strdup("execve error");
-	}
+	execve(cmd->path, cmd->cmd_tab, hell->envp);
+	exit_errno(cmd->cmd_tab[0], errno);
+	exit(0);
 }
 
 void	wait_pids(pid_t *pid, int i)
@@ -49,7 +58,7 @@ int	space_in_cmd(char *str, t_shell *hell)
 	{
 		if (ft_isspace(str[i++]))
 		{
-			hell->error = ft_strjoin(str, " : No such file or directory");
+			hell->error = ft_strjoin("No such file or directory: ", str);
 			return (1);
 		}
 	}
@@ -58,9 +67,9 @@ int	space_in_cmd(char *str, t_shell *hell)
 
 int	is_path_ok(char *str, t_shell *hell)
 {
-	if (access(str, F_OK) == -1)
+	if (access(str, F_OK | X_OK) == -1)
 	{
-		hell->error = ft_strjoin(str, " : No such file or directory");
+		hell->error = ft_strjoin(str, " : Command not found");
 		return (1);
 	}
 	return (0);
@@ -68,17 +77,17 @@ int	is_path_ok(char *str, t_shell *hell)
 
 int	execute_cmd(t_shell *hell, pid_t *pid, t_list *tmp)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	tmp = hell->cmd;
 	while (tmp)
 	{
-		if (space_in_cmd(((t_cmd *)tmp->content)->cmd_tab[0], hell))
-			return (1);
 		((t_cmd *)tmp->content)->path = path(hell, ((t_cmd *)tmp->content));
-		if (((t_cmd *)tmp->content)->path
-			&& !is_path_ok(((t_cmd *)tmp->content)->path, hell))
+		if (space_in_cmd(((t_cmd *)tmp->content)->path, hell)
+			|| is_path_ok(((t_cmd *)tmp->content)->path, hell))
+			return (1);
+		if (((t_cmd *)tmp->content)->path)
 		{
 			pid[i] = fork();
 			if (pid[i] == 0)
@@ -86,8 +95,6 @@ int	execute_cmd(t_shell *hell, pid_t *pid, t_list *tmp)
 			i++;
 			close_fd(tmp->content);
 		}
-		else
-			return (1);
 		free(((t_cmd *)tmp->content)->path);
 		((t_cmd *)tmp->content)->path = NULL;
 		tmp = tmp->next;
