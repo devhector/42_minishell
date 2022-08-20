@@ -41,9 +41,9 @@ static t_hash_elem	*create_elem(char	*data)
 
 t_hash_elem	**create_table_env(char **envp)
 {
+	int			i;
 	t_hash_elem	**table;
 	t_hash_elem	*elem;
-	int	i;
 
 	i = 0;
 	table = malloc(sizeof(t_hash_elem *) * HASH_SIZE);

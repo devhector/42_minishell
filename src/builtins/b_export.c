@@ -1,60 +1,5 @@
 #include "minishell.h"
 
-int	count_args(char **args)
-{
-	int	i;
-
-	i = 0;
-	while (args[i])
-		i++;
-	return (i);
-}
-
-char	**copy_array(char **str)
-{
-	int		i;
-	int		size;
-	char	**new;
-
-	size = count_args(str);
-	new = (char **)malloc(sizeof(char *) * (size + 1));
-	i = 0;
-	while (str[i])
-	{
-		new[i] = ft_strdup(str[i]);
-		i++;
-	}
-	new[i] = NULL;
-	return (new);
-}
-
-char	**sort_array(char **str)
-{
-	int		i;
-	int		j;
-	char	*tmp;
-	char	**new;
-
-	i = 0;
-	new = copy_array(str);
-	while (new[i])
-	{
-		j = i + 1;
-		while (new[j])
-		{
-			if (ft_strcmp(new[i], new[j]) > 0)
-			{
-				tmp = new[i];
-				new[i] = new[j];
-				new[j] = tmp;
-			}
-			j++;
-		}
-		i++;
-	}
-	return (new);
-}
-
 static void	print_env(char **str)
 {
 	int	i;
@@ -109,30 +54,27 @@ void	export(t_cmd *cmd, t_shell *hell)
 {
 	int		i;
 	char	*key;
-	char	**args;
 
-	i = 1;
-	args = cmd->cmd_tab;
-	while (args[i])
+	i = 0;
+	while (cmd->cmd_tab[++i])
 	{
-		if (ft_strchr(args[i], '='))
-			create_var(args[i], hell);
+		if (ft_strchr(cmd->cmd_tab[i], '='))
+			create_var(cmd->cmd_tab[i], hell);
 		else
 		{
-			if (check_name(args[i]))
+			if (check_name(cmd->cmd_tab[i]))
 			{
-				key = ft_strdup(args[i]);
+				key = ft_strdup(cmd->cmd_tab[i]);
 				update_env(hell->env, key, NULL);
 				free(key);
 			}
 			else
 			{
 				ft_putstr_fd("minisHell: export: `", STDERR_FILENO);
-				ft_putstr_fd(args[i], STDERR_FILENO);
+				ft_putstr_fd(cmd->cmd_tab[i], STDERR_FILENO);
 				ft_putendl_fd("': is not a valid identifier", STDERR_FILENO);
 			}
 		}
-		i++;
 	}
 }
 

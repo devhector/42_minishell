@@ -2,7 +2,7 @@
 
 int	b_unset(t_cmd *cmd, t_shell *hell)
 {
-	int	i;
+	int			i;
 	t_hash_elem	*elem;
 
 	i = 1;

@@ -48,3 +48,26 @@ void	print_error(t_shell *hell)
 		tmp = tmp->next;
 	}
 }
+
+void	errno_handle(char *str, int errnb, t_shell *hell)
+{
+	if (errnb == EACCES)
+	{
+		ft_putstr_fd("minisHell: ", STDERR_FILENO);
+		ft_putstr_fd(str, STDERR_FILENO);
+		ft_putendl_fd(": permission denied", STDERR_FILENO);
+	}
+	else if (errnb == ENOENT)
+	{
+		ft_putstr_fd("minisHell: ", STDERR_FILENO);
+		ft_putstr_fd(str, STDERR_FILENO);
+		ft_putendl_fd(": no such file or directory", STDERR_FILENO);
+	}
+	else if (errnb == ENOTDIR)
+	{
+		ft_putstr_fd("minisHell: ", STDERR_FILENO);
+		ft_putstr_fd(str, STDERR_FILENO);
+		ft_putendl_fd(": Not a directory", STDERR_FILENO);
+	}
+	hell->exit_code = errnb;
+}

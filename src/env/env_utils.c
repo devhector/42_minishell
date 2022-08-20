@@ -30,7 +30,7 @@ void	print_env(t_hash_elem **envp, t_cmd *cmd)
 	}
 }
 
-t_hash_elem		*create_elem(char *key, char *data)
+t_hash_elem	*create_elem(char *key, char *data)
 {
 	t_hash_elem	*elem;
 
@@ -43,9 +43,9 @@ t_hash_elem		*create_elem(char *key, char *data)
 	return (elem);
 }
 
-int		update_env(t_hash_elem **env, char *key, char *value)
+int	update_env(t_hash_elem **env, char *key, char *value)
 {
-	t_hash_elem *elem;
+	t_hash_elem	*elem;
 
 	elem = table_lookup(env, key);
 	if (!elem)

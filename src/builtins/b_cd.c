@@ -32,7 +32,7 @@ int	cd_path(char *str, t_shell *hell)
 	new = getcwd(NULL, 0);
 	if (!new)
 	{
-		ft_putendl_fd("minisHell: cd: Current directory not found",\
+		ft_putendl_fd("minisHell: cd: Current directory not found", \
 				STDERR_FILENO);
 		return (1);
 	}

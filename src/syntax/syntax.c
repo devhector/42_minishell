@@ -42,9 +42,11 @@ int	redirect_syntax(t_list *token)
 			return (1);
 		}
 		next_scan = (t_scan *)next->content;
-		if (ft_strcmp(next_scan->type, WORD) && ft_strcmp(next_scan->type, ASSIGNMENT))
+		if (ft_strcmp(next_scan->type, WORD)
+			&& ft_strcmp(next_scan->type, ASSIGNMENT))
 		{
-			scan->error = ft_strjoin(next_scan->type, ": syntax error redirect");
+			scan->error = \
+			ft_strjoin(next_scan->type, ": syntax error redirect");
 			scan->exit_code = 1;
 			return (1);
 		}

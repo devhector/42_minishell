@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/20 15:36:48 by hectfern          #+#    #+#             */
+/*   Updated: 2022/08/20 15:40:26 by hectfern         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*Function to free array of char*/
@@ -18,7 +30,7 @@ void	free_array(char **str)
 
 void	del_scan(void *content)
 {
-	t_scan *scan;
+	t_scan	*scan;
 
 	scan = (t_scan *)content;
 	if (scan->token)
@@ -44,7 +56,7 @@ static void	free_cmd_aux(t_list *tmp)
 {
 	t_list	*tmp2;
 
-	while(tmp)
+	while (tmp)
 	{
 		tmp2 = tmp->next;
 		free(tmp);

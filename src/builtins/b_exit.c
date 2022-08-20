@@ -2,16 +2,16 @@
 
 int	is_number(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	if(!str)
+	if (!str)
 		return (0);
-	while(str[i])
+	while (str[i])
 	{
 		if (!ft_isdigit(str[i]))
 			return (0);
-		if((str[i] == '+' || str[i] == '-') && !ft_isdigit(str[i + 1]))
+		if ((str[i] == '+' || str[i] == '-') && !ft_isdigit(str[i + 1]))
 			return (0);
 		i++;
 	}

@@ -37,27 +37,25 @@ int	lexer(t_shell *hell)
 {
 	t_list	*tmp;
 	char	*str;
-	t_scan	*scan;
 
 	tmp = hell->tokens;
 	while (tmp)
 	{
-		scan = (t_scan *)tmp->content;
-		str = scan->token;
+		str = ((t_scan *)tmp->content)->token;
 		if (!ft_strncmp(str, "|", 1))
-			scan->type = ft_strdup(PIPE);
+			((t_scan *)tmp->content)->type = ft_strdup(PIPE);
 		else if (!ft_strncmp(str, "<\0", 2))
-			scan->type = ft_strdup(LESS);
+			((t_scan *)tmp->content)->type = ft_strdup(LESS);
 		else if (!ft_strncmp(str, ">\0", 2) || !ft_strncmp(str, ">|", 2))
-			scan->type = ft_strdup(GREAT);
+			((t_scan *)tmp->content)->type = ft_strdup(GREAT);
 		else if (!ft_strncmp(str, ">>", 2))
-			scan->type = ft_strdup(DGREAT);
+			((t_scan *)tmp->content)->type = ft_strdup(DGREAT);
 		else if (!ft_strncmp(str, "<<", 2))
-			scan->type = ft_strdup(DLESS);
+			((t_scan *)tmp->content)->type = ft_strdup(DLESS);
 		else if (!ft_strncmp(str, "$", 1))
-			assignment_word(scan, str);
+			assignment_word(tmp->content, str);
 		else
-			word(scan);
+			word((t_scan *)tmp->content);
 		tmp = tmp->next;
 	}
 	return (0);

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	print_tokens (t_shell *hell)
+void	print_tokens(t_shell *hell)
 {
 	t_list	*tmp;
 	int		i;
@@ -17,7 +17,7 @@ void	print_tokens (t_shell *hell)
 	printf("---------\n");
 }
 
-void print_scan(t_list *tokens)
+void	print_scan(t_list *tokens)
 {
 	t_list	*tmp;
 	t_scan	*scan;
@@ -30,6 +30,20 @@ void print_scan(t_list *tokens)
 			printf("%s - %s\n", scan->token, scan->type);
 		tmp = tmp->next;
 	}
+}
+
+static int	check_all(t_shell *hell)
+{
+	if (check_tokens(hell))
+		return (1);
+	if (lexer(hell))
+		return (1);
+	if (syntax(hell))
+		return (1);
+	if (command(hell))
+		return (1);
+	print_scan(hell->tokens);
+	return (0);
 }
 
 int	scan(t_shell *hell)
@@ -56,13 +70,5 @@ int	scan(t_shell *hell)
 			create_token(hell, start, i);
 		}
 	}
-	if (check_tokens(hell))
-		return (1);
-	if (lexer(hell))
-		return (1);
-	if (syntax(hell))
-		return (1);
-	if (command(hell))
-		return (1);
-	return (0);
+	return (check_all(hell));
 }
