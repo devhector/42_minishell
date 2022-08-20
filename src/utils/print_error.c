@@ -1,65 +1,50 @@
 #include "minishell.h"
 
+void	aux_print_scan(t_scan *scan, t_shell *hell)
+{
+	if (scan->error)
+	{
+		ft_putstr_fd("minisHell: ", 2);
+		ft_putendl_fd(scan->error, 2);
+		hell->exit_code = scan->exit_code;
+	}
+}
+
+void	aux_print_cmd(t_cmd *cmd, t_shell *hell)
+{
+	if (cmd->error)
+	{
+		ft_putstr_fd("minisHell: ", 2);
+		ft_putendl_fd(cmd->error, 2);
+		hell->exit_code = cmd->exit_code;
+	}
+}
+
+void	aux_print_tmp(t_list *tmp, t_shell *hell)
+{
+	while (tmp)
+	{
+		aux_print_scan((t_scan *)tmp->content, hell);
+		tmp = tmp->next;
+	}
+}
+
 void	print_error(t_shell *hell)
 {
 	t_list	*tmp;
-	t_list	*tmp2;
-	t_list	*tmp3;
-	t_cmd	*cmd;
-	t_scan	*scan;
 
 	if (hell->error)
 	{
-		ft_putendl_fd(hell->error, STDOUT_FILENO);
+		ft_putendl_fd(hell->error, STDERR_FILENO);
 		return ;
 	}
-	tmp = hell->tokens;
-	while (tmp)
-	{
-		scan = (t_scan *)tmp->content;
-		if (scan->error)
-		{
-			ft_putendl_fd(scan->error, STDOUT_FILENO);
-			return ;
-		}
-		tmp = tmp->next;
-	}
+	aux_print_tmp(hell->tokens, hell);
+	aux_print_tmp(hell->cmd, hell);
 	tmp = hell->cmd;
 	while (tmp)
 	{
-		cmd = tmp->content;
-		if (cmd->error)
-		{
-			ft_putendl_fd(cmd->error, STDOUT_FILENO);
-			return ;
-		}
-		tmp = tmp->next;
-	}
-	tmp = hell->cmd;
-	while (tmp)
-	{
-		tmp2 = ((t_cmd *)tmp->content)->command;
-		while (tmp2)
-		{
-			scan = tmp2->content;
-			if (scan->error)
-			{
-				ft_putendl_fd(scan->error, STDOUT_FILENO);
-				return ;
-			}
-			tmp2 = tmp2->next;
-		}
-		tmp3 = ((t_cmd *)tmp->content)->redirect;
-		while (tmp3)
-		{
-			scan = tmp3->content;
-			if (scan->error)
-			{
-				ft_putendl_fd(scan->error, STDOUT_FILENO);
-				return ;
-			}
-			tmp3 = tmp3->next;
-		}
+		aux_print_tmp(((t_cmd *)tmp->content)->command, hell);
+		aux_print_tmp(((t_cmd *)tmp->content)->redirect, hell);
 		tmp = tmp->next;
 	}
 }

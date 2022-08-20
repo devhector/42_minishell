@@ -15,12 +15,13 @@ CFLAGS += $(addprefix -I , $(INCLUDE_PATH))
 vpath %.h $(INCLUDE_PATH)
 
 vpath %.c	src src/hashTable src/env src/scan src/lexer src/syntax \
-			src/execute src/command src/utils
+			src/execute src/command src/utils src/builtins
 
 SRC =	main.c minishell.c hash_table.c hash_utils.c hash_env.c create_env.c \
 		env_utils.c tokens_func.c scan.c check_char.c check_tokens.c lexer.c \
-		syntax.c execute.c execute_utils.c command.c command_table.c expanse.c\
-		free_utils.c here_doc.c clean_shell.c print_error.c bultins_utils.c 
+		syntax.c execute.c execute_utils.c command.c command_table.c expanse.c \
+		free_utils.c here_doc.c clean_shell.c print_error.c bultins_utils.c \
+		b_echo.c b_cd.c b_exit.c b_export.c b_env.c b_unset.c b_pwd.c
 
 
 RM = @rm -rf

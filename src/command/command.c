@@ -31,6 +31,7 @@ t_cmd	*create_cmd(void)
 	if (!cmd)
 	{
 		cmd->error = ft_strdup(": malloc error");
+		cmd->exit_code = 1;
 		return (NULL);
 	}
 	cmd->fd_in = -42;

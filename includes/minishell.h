@@ -18,6 +18,8 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <wait.h>
+#include <signal.h>
+#include <errno.h>
 #include "libft.h"
 #include "hash_table.h"
 #include "scan.h"
@@ -25,6 +27,7 @@
 
 typedef struct s_shell
 {
+	int			exit_code;
 	char		*line;
 	t_list		*tokens;
 	t_list		*cmd;
@@ -35,6 +38,8 @@ typedef struct s_shell
 
 void		minishell(char	**envp);
 void		get_tokens(t_shell *hell);
+void		clean_shell(t_shell *hell);
+void		print_error(t_shell *hell);
 
 void	quote_token(t_shell *hell, int *i);
 void	redirect_token(t_shell *hell, int *i);
@@ -70,5 +75,22 @@ void	del_scan(void *content);
 void	free_cmd (void *content);
 
 int		here_doc(char *delimiter);
+int		is_bultin(t_cmd *cmd);
+
+int		update_env(t_hash_elem **env, char *key, char *value);
+
+int	b_echo(t_cmd *cmd);
+int	b_pwd(t_shell *hell);
+int	b_cd(t_cmd *cmd, t_shell *hell);
+int	b_env(t_cmd *cmd, t_shell *hell);
+int	b_exit(t_cmd *cmd, t_shell *hell);
+int	b_export(t_cmd *cmd, t_shell *hell);
+
+char	*get_value(char	*data);
+char	*get_key(char	*data);
+int		count_args(char **args);
+
+int	hash(const char *key);
+int	b_unset(t_cmd *cmd, t_shell *hell);
 
 #endif

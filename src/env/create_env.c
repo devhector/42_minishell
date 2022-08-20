@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static char	*get_key(char	*data)
+char	*get_key(char	*data)
 {
 	char	*key;
 	int		i;
@@ -12,7 +12,7 @@ static char	*get_key(char	*data)
 	return (key);
 }
 
-static char	*get_value(char	*data)
+char	*get_value(char	*data)
 {
 	char	*value;
 	int		i;
@@ -20,6 +20,8 @@ static char	*get_value(char	*data)
 	i = 0;
 	while (data[i] && data[i] != '=')
 		i++;
+	if (!data[i + 1])
+		return (NULL);
 	value = ft_substr(data, i + 1, ft_strlen(data));
 	return (value);
 }

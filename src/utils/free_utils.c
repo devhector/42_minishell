@@ -64,6 +64,11 @@ void	free_cmd(void *content)
 		free(cmd->path);
 		cmd->path = NULL;
 	}
+	if (cmd->error)
+	{
+		free(cmd->error);
+		cmd->error = NULL;
+	}
 	free_cmd_aux(cmd->command);
 	free_cmd_aux(cmd->redirect);
 	free(cmd);

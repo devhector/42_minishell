@@ -16,6 +16,7 @@ int	tilde_expansor(t_scan *scan, t_shell *hell)
 	if (!home)
 	{
 		scan->error = ft_strdup("HOME not set");
+		scan->exit_code = 1;
 		return (-42);
 	}
 	home_len = ft_strlen(home);
@@ -58,7 +59,7 @@ int	var_expansor(t_scan *scan, t_shell *hell, int i)
 	return (ft_strlen(tmp2) + i);
 }
 
-void	check_var(t_scan *scan)
+void	check_var(t_scan *scan, t_shell *hell)
 {
 	int	i;
 
@@ -70,10 +71,17 @@ void	check_var(t_scan *scan)
 			&& scan->token[i])
 			i++;
 	}
+	i = 0;
 	if (scan->token[i] == '$' && scan->token[i + 1] == '\0')
 	{
 		free(scan->token);
 		scan->token = ft_strdup("");
+	}
+	if (scan->token[0] == '$' && scan->token[1] == '?'
+		&& scan->token[2] == '\0')
+	{
+		free(scan->token);
+		scan->token = ft_itoa(hell->exit_code);
 	}
 }
 
@@ -109,7 +117,7 @@ int	token_expansor(t_scan *scan, t_shell *hell)
 			i = var_expansor(scan, hell, i);
 		i++;
 	}
-	check_var(scan);
+	check_var(scan, hell);
 	remove_quote(scan);
 	return (0);
 }

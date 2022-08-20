@@ -18,6 +18,7 @@ int	check_quotes(t_scan *scan)
 			if (str[i] == '\0')
 			{
 				scan->error = ft_strdup("unclosed quote");
+				scan->exit_code = 1;
 				return (1);
 			}
 			
@@ -38,13 +39,15 @@ static int	check_redirections(t_scan *scan)
 			return (0);
 		else if (str[1] == '>' && !(str[2] == '\0' || str[2] == '|'))
 		{
-			scan->error = ft_strdup("syntax error");
+			scan->error = ft_strdup("syntax error redirect");
+			scan->exit_code = 1;
 			return (1);
 		}
 	}
 	else if (str[0] == '<' && !(str[1] == '<' || str[1] == '\0'))
 	{
-		scan->error = ft_strdup("syntax error");
+		scan->error = ft_strdup("syntax error redirect");
+		scan->exit_code = 1;
 		return (1);
 	}
 	return (0);
@@ -61,7 +64,8 @@ int	check_backslash_semicolon(t_scan *scan)
 	{
 		if (str[i] == '\\' || str[i] == ';')
 		{
-			scan->error = ft_strdup("syntax error");
+			scan->error = ft_strdup("syntax error backslash or semicolon");
+			scan->exit_code = 1;
 			return (1);
 		}
 		i++;
@@ -82,7 +86,8 @@ int	check_follow_pipe(t_list *token)
 	scan_next = (t_scan *)next->content;
 	if (scan->token[0] == '|' && scan_next->token[0] == '|')
 	{
-		scan->error = ft_strdup("syntax error");
+		scan->error = ft_strdup("syntax error pipe");
+		scan->exit_code = 1;
 		return (1);
 	}
 	return (0);
@@ -99,14 +104,16 @@ int	check_variable(t_list *token)
 		i = 0;
 		if (ft_isdigit(scan->token[i]))
 		{
-			scan->error = ft_strdup("syntax error");
+			scan->error = ft_strdup("Variable name cannot start with a digit");
+			scan->exit_code = 1;
 			return (1);
 		}
-		while (scan->token[i])
+		while (scan->token[i] && scan->token[i] != '=')
 		{
 			if (!ft_isalnum(scan->token[i]) && scan->token[i] != '_')
 			{
-				scan->error = ft_strdup("syntax error");
+				scan->error = ft_strdup("syntax error variable");
+				scan->exit_code = 1;
 				return (1);
 			}
 			i++;

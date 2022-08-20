@@ -16,6 +16,7 @@ int	open_pipes(t_shell *hell)
 			if (pipe(cmd->pipe) == -1)
 			{
 				hell->error = ft_strdup("pipe error");
+				hell->exit_code = 1;
 				return (1);
 			}
 			cmd->fd_out = cmd->pipe[1];
@@ -90,17 +91,13 @@ int	redirects(t_shell *hell)
 	return (0);
 }
 
-char	*path(t_shell *hell, t_cmd *cmd)
+char	*path_aux(char **path_env, t_cmd *cmd)
 {
-	char	**path_env;
 	int		i;
 	char	*tmp;
 	char	*cmd_s;
 
 	i = 0;
-	if (ft_strchr(cmd->cmd_tab[0], '/'))
-		return (ft_strdup(cmd->cmd_tab[0]));
-	path_env = ft_split(get_value_env(hell->env, "PATH"), ':');
 	while (path_env[i])
 	{
 		tmp = ft_strjoin(path_env[i], "/");
@@ -116,5 +113,24 @@ char	*path(t_shell *hell, t_cmd *cmd)
 		i++;
 	}
 	free_array(path_env);
-	return (ft_strdup(cmd->cmd_tab[0]));
+	return (NULL);
+}
+
+char	*path(t_shell *hell, t_cmd *cmd)
+{
+	int		i;
+	char	*path;
+	char	**path_env;
+
+	i = 0;
+	if (ft_strchr(cmd->cmd_tab[0], '/'))
+		return (ft_strdup(cmd->cmd_tab[0]));
+	path_env = ft_split(get_value_env(hell->env, "PATH"), ':');
+	if (!path_env)
+		return (NULL);
+	path = path_aux(path_env, cmd);
+	if (path)
+		return (path);
+	else
+		return (ft_strdup(cmd->cmd_tab[0]));
 }

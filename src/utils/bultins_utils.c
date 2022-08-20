@@ -19,4 +19,5 @@ int	is_bultin(t_cmd *cmd)
 		return (1);
 	if (!ft_strcmp(str, "exit\0"))
 		return (1);
+	return (0);
 }

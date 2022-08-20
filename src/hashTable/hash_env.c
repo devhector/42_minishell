@@ -29,12 +29,17 @@ static char	*join_key_value(t_hash_elem *el)
 	char	*ret;
 
 	key = ft_strdup(el->key);
-	value = ft_strdup(el->data);
-	tmp = ft_strjoin(key, "=");
-	ret = ft_strjoin(tmp, value);
-	free(key);
-	free(tmp);
-	free(value);
+	if (el->data)
+	{
+		value = ft_strdup(el->data);
+		tmp = ft_strjoin(key, "=");
+		ret = ft_strjoin(tmp, value);
+		free(key);
+		free(tmp);
+		free(value);
+	}
+	else
+		ret = key;
 	return (ret);
 }
 

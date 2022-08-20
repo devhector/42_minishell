@@ -10,6 +10,7 @@ int	pipe_syntax(t_list *token)
 		if (!token->prev || !token->next)
 		{
 			scan->error = ft_strdup("PIPE: syntax error");
+			scan->exit_code = 1;
 			return (1);
 		}
 	}
@@ -36,13 +37,15 @@ int	redirect_syntax(t_list *token)
 		next = token->next;
 		if (!next)
 		{
-			scan->error = ft_strjoin(scan->type, ": syntax error");
+			scan->error = ft_strjoin(scan->type, ": syntax error redirect");
+			scan->exit_code = 1;
 			return (1);
 		}
 		next_scan = (t_scan *)next->content;
 		if (ft_strcmp(next_scan->type, WORD) && ft_strcmp(next_scan->type, ASSIGNMENT))
 		{
-			scan->error = ft_strjoin(next_scan->type, ": syntax error");
+			scan->error = ft_strjoin(next_scan->type, ": syntax error redirect");
+			scan->exit_code = 1;
 			return (1);
 		}
 	}

@@ -10,6 +10,45 @@ void init_shell(t_shell *hell, char **envp)
 	hell->env = create_table_env(envp);
 }
 
+static void	reprompt(int signal)
+{
+	(void)signal;
+	rl_replace_line("", 0);
+	ft_putchar_fd('\n', STDOUT_FILENO);
+	rl_on_new_line();
+	rl_redisplay();
+}
+
+void	handle_signals(void)
+{
+	signal(SIGINT, reprompt);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+int	full_space(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!ft_isspace(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+char	*create_prompt(t_shell *hell)
+{
+	char	*usr;
+
+	usr = ft_strdup(get_value_env(hell->env, "USER"));
+	if (!usr)
+		return (NULL);
+	return (ft_strjoin(usr, " $> "));
+}
+
 void	minishell(char	**envp)
 {
 	t_shell	hell;
@@ -17,39 +56,23 @@ void	minishell(char	**envp)
 	init_shell(&hell, envp);
 	while (42)
 	{
+		handle_signals();
+		clean_shell(&hell);
 		hell.line = readline("$> ");
 		add_history(hell.line);
-		if (!ft_strlen(hell.line))
+		if (!hell.line)
 		{
-			if (hell.line)
-				free(hell.line);
-			hell.line = NULL;
+			printf("exit\n"); //criar func exit
 			break ;
 		}
-		if (scan(&hell))
+		if (!*hell.line || full_space(hell.line))
+			continue ;
+		if (scan(&hell) || execute(&hell))
 		{
-			printf("error: scan\n");
-			free(hell.line);
-			hell.line = NULL;
+			print_error(&hell);
 			continue;
-		}
-		execute(&hell);
-		free(hell.line);
-		hell.line = NULL;
-		if (hell.error)
-		{
-			free(hell.error);
-			hell.error = NULL;
-		}
-		if (hell.tokens)
-			ft_lstclear(&hell.tokens, del_scan);
-		if (hell.cmd)
-			ft_lstclear(&hell.cmd, free_cmd);
-		if (hell.envp)
-		{
-			free_array(hell.envp);
-			hell.envp = NULL;
 		}
 	}
 	clear_table(hell.env);
+	rl_clear_history();
 }
