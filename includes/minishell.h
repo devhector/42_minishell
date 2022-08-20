@@ -93,4 +93,24 @@ int		count_args(char **args);
 int	hash(const char *key);
 int	b_unset(t_cmd *cmd, t_shell *hell);
 
+void	check_var(t_scan *scan, t_shell *hell);
+void	swap(t_scan *scan, char *token);
+void	remove_quote(t_scan *scan);
+int	token_expansor(t_scan *scan, t_shell *hell);
+int	var_expansor(t_scan *scan, t_shell *hell, int i);
+int	tilde_expansor(t_scan *scan, t_shell *hell);
+
+int	check_quotes(t_scan *scan);
+int	check_backslash_semicolon(t_scan *scan);
+int	check_follow_pipe(t_list *token);
+int	check_variable(t_list *token);
+int	builtin_parent(t_cmd *cmd, t_shell *hell);
+void	exec_bultin(t_cmd *cmd, t_shell *hell);
+void	errno_handle(char *str, int errnb, t_shell *hell);
+void	wait_pids(pid_t *pid, int i, t_shell *hell);
+char	**copy_array(char **str);
+char	**sort_array(char **str);
+void	close_fd_redirect(t_scan *redirect, t_cmd *cmd);
+int	check_path(t_cmd *cmd, t_shell *hell);
+
 #endif
