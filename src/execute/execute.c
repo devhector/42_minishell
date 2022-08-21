@@ -36,7 +36,8 @@ void	execute_child(t_cmd *cmd, t_shell *hell)
 
 int	space_in_cmd(char *str, t_shell *hell)
 {
-	int	i;
+	int		i;
+	char	tmp;
 
 	if (!str)
 		return (0);
@@ -45,8 +46,10 @@ int	space_in_cmd(char *str, t_shell *hell)
 	{
 		if (ft_isspace(str[i++]))
 		{
-			hell->error = ft_strjoin("No such file or directory: ", str);
+			tmp = ft_strjoin("minisHell: ", str);
+			hell->error = ft_strjoin(tmp, " : command not found");
 			hell->exit_code = 1;
+			free(tmp);
 			return (1);
 		}
 	}
