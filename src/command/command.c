@@ -23,15 +23,15 @@ void	add_cmd(t_list *token, t_cmd *cmd)
 	}
 }
 
-t_cmd	*create_cmd(void)
+t_cmd	*create_cmd(t_shell *hell)
 {
 	t_cmd	*cmd;
 
 	cmd = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!cmd)
 	{
-		cmd->error = ft_strdup(": malloc error");
-		cmd->exit_code = 1;
+		hell->error = ft_strdup(": malloc error");
+		hell->exit_code = 1;
 		return (NULL);
 	}
 	cmd->fd_in = -42;
@@ -45,13 +45,43 @@ t_cmd	*create_cmd(void)
 	return (cmd);
 }
 
+void	join_assign_token(t_shell *hell)
+{
+	t_scan	*s;
+	char	*tmp;
+	char	*str;
+	t_list	*token;
+
+	token = hell->tokens;
+	while (token)
+	{
+		s = (t_scan *)token->content;
+		if (s->token[ft_strlen(s->token) - 1] == '=')
+		{
+			if (token->next)
+			{
+				str = ((t_scan *)token->next->content)->token;
+				if (has_quote(str) != -1)
+				{
+					tmp = s->token;
+					s->token = ft_strjoin(s->token, str);
+					ft_lstdelone(token->next, del_scan);
+					free(tmp);
+				}
+			}
+		}
+		token = token->next;
+	}
+}
+
 int	command(t_shell *hell)
 {
 	t_cmd	*cmd;
 	t_list	*token;
 
+	join_assign_token(hell);
 	token = hell->tokens;
-	cmd = create_cmd();
+	cmd = create_cmd(hell);
 	if (!cmd)
 		return (1);
 	while (token)
@@ -60,7 +90,7 @@ int	command(t_shell *hell)
 		{
 			cmd->is_piped = 1;
 			ft_lstadd_back(&hell->cmd, ft_lstnew(cmd));
-			cmd = create_cmd();
+			cmd = create_cmd(hell);
 			if (!cmd)
 				return (1);
 		}

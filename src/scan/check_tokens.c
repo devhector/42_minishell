@@ -25,11 +25,24 @@ static int	check_redirections(t_scan *scan)
 	return (0);
 }
 
+void	print_tokens__(t_list *tokens)
+{
+	t_scan	*token;
+
+	while (tokens)
+	{
+		token = tokens->content;
+		printf("%s\n", token->token);
+		tokens = tokens->next;
+	}
+}
+
 int	check_tokens(t_shell *hell)
 {
 	t_list	*tmp;
 	t_scan	*scan;
 
+	print_tokens__(hell->tokens);
 	tmp = hell->tokens;
 	while (tmp)
 	{

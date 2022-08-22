@@ -21,8 +21,8 @@ int	has_quote(char *str)
 	while (str[i])
 	{
 		if (is_quote(str[i]))
-			return (1);
+			return (i);
 		i++;
 	}
-	return (0);
+	return (-1);
 }

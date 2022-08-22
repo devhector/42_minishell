@@ -32,15 +32,32 @@ void	check_var(t_scan *scan, t_shell *hell)
 	}
 }
 
-void	remove_quote(t_scan *scan)
+void	remove_quote_aux(t_scan *s, int i, int j)
 {
 	char	*tmp;
+	char	*tmp2;
 
-	if (has_quote(scan->token))
+	tmp = ft_substr(s->token, 0, i);
+	tmp2 = ft_substr(s->token, i + 1, j);
+	swap(s, ft_strjoin(tmp, tmp2));
+	free(tmp);
+	free(tmp2);
+}
+
+void	remove_quote(t_scan *scan)
+{
+	int		i;
+	int		j;
+
+	j = 0;
+	i = has_quote(scan->token);
+	if (i != -1)
 	{
-		tmp = ft_substr(scan->token, 1, ft_strlen(scan->token) - 2);
-		free(scan->token);
-		scan->token = tmp;
+		j = has_quote(scan->token + i + 1);
+		if (j != -1)
+			remove_quote_aux(scan, i, j);
+		else
+			remove_quote_aux(scan, i, ft_strlen(scan->token));
 	}
 }
 

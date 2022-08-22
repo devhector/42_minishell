@@ -37,7 +37,7 @@ void	execute_child(t_cmd *cmd, t_shell *hell)
 int	space_in_cmd(char *str, t_shell *hell)
 {
 	int		i;
-	char	tmp;
+	char	*tmp;
 
 	if (!str)
 		return (0);

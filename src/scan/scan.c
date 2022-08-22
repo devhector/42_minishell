@@ -65,7 +65,8 @@ int	scan(t_shell *hell)
 		else
 		{
 			start = i;
-			while (line[i] && !ft_isspace(line[i]) && !is_redirect(line[i]))
+			while (line[i] && !ft_isspace(line[i]) && !is_redirect(line[i])
+				&& !is_quote(line[i]))
 				i++;
 			create_token(hell, start, i);
 		}
