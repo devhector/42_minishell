@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 17:45:45 by hectfern          #+#    #+#             */
-/*   Updated: 2022/08/22 17:45:46 by hectfern         ###   ########.fr       */
+/*   Updated: 2022/08/22 18:23:45 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ static int	check_all(t_shell *hell)
 		return (1);
 	if (command(hell))
 		return (1);
-	print_scan(hell->tokens);
 	return (0);
 }
 

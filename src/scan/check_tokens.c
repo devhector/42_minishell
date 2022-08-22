@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 17:45:58 by hectfern          #+#    #+#             */
-/*   Updated: 2022/08/22 17:45:58 by hectfern         ###   ########.fr       */
+/*   Updated: 2022/08/22 18:24:10 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,24 +37,11 @@ int	check_redirections(t_scan *scan)
 	return (0);
 }
 
-void	print_tokens__(t_list *tokens)
-{
-	t_scan	*token;
-
-	while (tokens)
-	{
-		token = tokens->content;
-		printf("%s\n", token->token);
-		tokens = tokens->next;
-	}
-}
-
 int	check_tokens(t_shell *hell)
 {
 	t_list	*tmp;
 	t_scan	*scan;
 
-	print_tokens__(hell->tokens);
 	tmp = hell->tokens;
 	while (tmp)
 	{
