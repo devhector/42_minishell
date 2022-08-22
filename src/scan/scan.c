@@ -6,43 +6,11 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 17:45:45 by hectfern          #+#    #+#             */
-/*   Updated: 2022/08/22 18:23:45 by hectfern         ###   ########.fr       */
+/*   Updated: 2022/08/22 18:35:11 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	print_tokens(t_shell *hell)
-{
-	t_list	*tmp;
-	int		i;
-
-	i = 0;
-	tmp = hell->tokens;
-	while (tmp)
-	{
-		printf("[%d] - %s\n", i, ((t_scan *)tmp->content)->token);
-		tmp = tmp->next;
-		i++;
-	}
-	printf("tokenks: %d\n", ft_lstsize(hell->tokens));
-	printf("---------\n");
-}
-
-void	print_scan(t_list *tokens)
-{
-	t_list	*tmp;
-	t_scan	*scan;
-
-	tmp = tokens;
-	while (tmp)
-	{
-		scan = (t_scan *)tmp->content;
-		if (scan->token)
-			printf("%s - %s\n", scan->token, scan->type);
-		tmp = tmp->next;
-	}
-}
 
 static int	check_all(t_shell *hell)
 {
