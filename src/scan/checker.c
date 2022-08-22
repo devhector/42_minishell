@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   checker.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/22 17:45:52 by hectfern          #+#    #+#             */
+/*   Updated: 2022/08/22 17:45:53 by hectfern         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	check_quotes(t_scan *scan)
@@ -18,7 +30,7 @@ int	check_quotes(t_scan *scan)
 			if (str[i] == '\0')
 			{
 				scan->error = ft_strdup("unclosed quote");
-				scan->exit_code = 1;
+				g_exit_code = 1;
 				return (1);
 			}
 		}
@@ -39,7 +51,7 @@ int	check_backslash_semicolon(t_scan *scan)
 		if (str[i] == '\\' || str[i] == ';')
 		{
 			scan->error = ft_strdup("syntax error backslash or semicolon");
-			scan->exit_code = 1;
+			g_exit_code = 1;
 			return (1);
 		}
 		i++;
@@ -61,7 +73,7 @@ int	check_follow_pipe(t_list *token)
 	if (scan->token[0] == '|' && scan_next->token[0] == '|')
 	{
 		scan->error = ft_strdup("syntax error pipe");
-		scan->exit_code = 1;
+		g_exit_code = 1;
 		return (1);
 	}
 	return (0);
@@ -79,7 +91,7 @@ int	check_variable(t_list *token)
 		if (ft_isdigit(scan->token[i]))
 		{
 			scan->error = ft_strdup("Variable name cannot start with a digit");
-			scan->exit_code = 1;
+			g_exit_code = 1;
 			return (1);
 		}
 		while (scan->token[i] && scan->token[i] != '=')
@@ -87,7 +99,7 @@ int	check_variable(t_list *token)
 			if (!ft_isalnum(scan->token[i]) && scan->token[i] != '_')
 			{
 				scan->error = ft_strdup("syntax error variable");
-				scan->exit_code = 1;
+				g_exit_code = 1;
 				return (1);
 			}
 			i++;
@@ -104,7 +116,7 @@ int	check_path(t_cmd *cmd, t_shell *hell)
 	{
 		tmp = ft_strjoin("minisHell: ", cmd->cmd_tab[0]);
 		hell->error = ft_strjoin(tmp, " : Command not found");
-		hell->exit_code = 127;
+		g_exit_code = 127;
 		free(tmp);
 		return (1);
 	}
@@ -114,7 +126,7 @@ int	check_path(t_cmd *cmd, t_shell *hell)
 	{
 		tmp = ft_strjoin("minisHell: ", cmd->cmd_tab[0]);
 		hell->error = ft_strjoin(tmp, " : Command not found");
-		hell->exit_code = 127;
+		g_exit_code = 127;
 		free(tmp);
 		return (1);
 	}

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/22 17:46:39 by hectfern          #+#    #+#             */
+/*   Updated: 2022/08/22 17:46:40 by hectfern         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	close_all_fd(t_shell *hell)
@@ -16,6 +28,7 @@ void	close_all_fd(t_shell *hell)
 
 void	execute_child(t_cmd *cmd, t_shell *hell)
 {
+	handle_signals_child();
 	if (cmd->fd_in > 2)
 		dup2(cmd->fd_in, STDIN_FILENO);
 	if (cmd->fd_out > 2)
@@ -26,12 +39,12 @@ void	execute_child(t_cmd *cmd, t_shell *hell)
 	else
 	{
 		execve(cmd->path, cmd->cmd_tab, hell->envp);
-		errno_handle(cmd->cmd_tab[0], errno, hell);
+		errno_handle(cmd->cmd_tab[0], errno);
 	}
 	clear_table(hell->env);
 	clean_shell(hell);
 	rl_clear_history();
-	exit(hell->exit_code);
+	exit(g_exit_code);
 }
 
 int	space_in_cmd(char *str, t_shell *hell)
@@ -48,7 +61,7 @@ int	space_in_cmd(char *str, t_shell *hell)
 		{
 			tmp = ft_strjoin("minisHell: ", str);
 			hell->error = ft_strjoin(tmp, " : command not found");
-			hell->exit_code = 1;
+			g_exit_code = 1;
 			free(tmp);
 			return (1);
 		}
@@ -62,6 +75,7 @@ int	execute_cmd(t_shell *hell, pid_t *pid, t_list *tmp)
 
 	i = 0;
 	tmp = hell->cmd;
+	handle_signals_parent();
 	while (tmp)
 	{
 		((t_cmd *)tmp->content)->path = path(hell, ((t_cmd *)tmp->content));
@@ -79,7 +93,7 @@ int	execute_cmd(t_shell *hell, pid_t *pid, t_list *tmp)
 		((t_cmd *)tmp->content)->path = NULL;
 		tmp = tmp->next;
 	}
-	wait_pids(pid, i, hell);
+	wait_pids(pid, i);
 	return (0);
 }
 

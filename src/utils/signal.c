@@ -1,33 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   b_pwd.c                                            :+:      :+:    :+:   */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/22 17:47:36 by hectfern          #+#    #+#             */
-/*   Updated: 2022/08/22 17:47:36 by hectfern         ###   ########.fr       */
+/*   Created: 2022/08/22 17:45:01 by hectfern          #+#    #+#             */
+/*   Updated: 2022/08/22 17:45:01 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	b_pwd(void)
+static void	ctrl_c(int signal)
 {
-	char	*pwd;
+	g_exit_code = 128 + signal;
+	ft_putchar_fd('\n', STDOUT_FILENO);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+}
 
-	pwd = getcwd(NULL, 0);
-	if (pwd)
-	{
-		ft_putendl_fd(pwd, STDOUT_FILENO);
-		free(pwd);
-	}
-	else
-	{
-		ft_putendl_fd("minisHell: pwd: no such file or directory", \
-			STDERR_FILENO);
-		g_exit_code = 1;
-	}
-	g_exit_code = 0;
-	return (0);
+void	handle_signals(void)
+{
+	signal(SIGINT, ctrl_c);
+	signal(SIGQUIT, SIG_IGN);
 }

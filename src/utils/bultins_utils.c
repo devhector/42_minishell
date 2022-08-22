@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 15:36:17 by hectfern          #+#    #+#             */
-/*   Updated: 2022/08/20 16:44:27 by hectfern         ###   ########.fr       */
+/*   Updated: 2022/08/22 11:04:09 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	builtin_parent(t_cmd *cmd, t_shell *hell)
 	str = cmd->cmd_tab[0];
 	if (!ft_strcmp(str, "cd\0"))
 	{
-		hell->exit_code = b_cd(cmd, hell);
+		g_exit_code = b_cd(cmd, hell);
 		return (0);
 	}
 	if (!ft_strcmp(str, "exit\0"))
@@ -59,14 +59,14 @@ void	exec_bultin(t_cmd *cmd, t_shell *hell)
 
 	str = cmd->cmd_tab[0];
 	if (!ft_strcmp(str, "echo\0"))
-		hell->exit_code = b_echo(cmd);
+		g_exit_code = b_echo(cmd);
 	else if (!ft_strcmp(str, "env\0"))
-		hell->exit_code = b_env(cmd, hell);
+		g_exit_code = b_env(cmd, hell);
 	else if (!ft_strcmp(str, "pwd\0"))
-		b_pwd(hell);
+		b_pwd();
 }
 
-void	wait_pids(pid_t *pid, int i, t_shell *hell)
+void	wait_pids(pid_t *pid, int i)
 {
 	int	status;
 	int	j;
@@ -79,5 +79,5 @@ void	wait_pids(pid_t *pid, int i, t_shell *hell)
 		j++;
 	}
 	if (WIFEXITED(status))
-		hell->exit_code = WEXITSTATUS(status);
+		g_exit_code = WEXITSTATUS(status);
 }

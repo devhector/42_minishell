@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/22 17:42:18 by hectfern          #+#    #+#             */
+/*   Updated: 2022/08/22 17:43:11 by hectfern         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void init_shell(t_shell *hell, char **envp)
+void	init_shell(t_shell *hell, char **envp)
 {
 	hell->cmd = NULL;
 	hell->envp = NULL;
@@ -10,24 +22,9 @@ void init_shell(t_shell *hell, char **envp)
 	hell->env = create_table_env(envp);
 }
 
-static void	reprompt(int signal)
-{
-	(void)signal;
-	rl_replace_line("", 0);
-	ft_putchar_fd('\n', STDOUT_FILENO);
-	rl_on_new_line();
-	rl_redisplay();
-}
-
-void	handle_signals(void)
-{
-	signal(SIGINT, reprompt);
-	signal(SIGQUIT, SIG_IGN);
-}
-
 int	full_space(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -62,7 +59,7 @@ void	minishell(char	**envp)
 		add_history(hell.line);
 		if (!hell.line)
 		{
-			printf("exit\n"); //criar func exit
+			ft_putendl_fd("exit", STDOUT_FILENO);
 			break ;
 		}
 		if (!*hell.line || full_space(hell.line))
@@ -70,7 +67,7 @@ void	minishell(char	**envp)
 		if (scan(&hell) || execute(&hell))
 		{
 			print_error(&hell);
-			continue;
+			continue ;
 		}
 	}
 	clear_table(hell.env);

@@ -1,33 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   b_pwd.c                                            :+:      :+:    :+:   */
+/*   execute_signal.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/22 17:47:36 by hectfern          #+#    #+#             */
-/*   Updated: 2022/08/22 17:47:36 by hectfern         ###   ########.fr       */
+/*   Created: 2022/08/22 17:46:50 by hectfern          #+#    #+#             */
+/*   Updated: 2022/08/22 17:51:32 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	b_pwd(void)
+static void	ctrl_c(int signal)
 {
-	char	*pwd;
+	g_exit_code = 128 + signal;
+	return ;
+}
 
-	pwd = getcwd(NULL, 0);
-	if (pwd)
-	{
-		ft_putendl_fd(pwd, STDOUT_FILENO);
-		free(pwd);
-	}
-	else
-	{
-		ft_putendl_fd("minisHell: pwd: no such file or directory", \
-			STDERR_FILENO);
-		g_exit_code = 1;
-	}
+static void	ctrl_d(int signal)
+{
+	(void)signal;
 	g_exit_code = 0;
-	return (0);
+	return ;
+}
+
+static void	parent(int signal)
+{
+	g_exit_code = 128 + signal;
+	ft_putendl_fd("", STDOUT_FILENO);
+	return ;
+}
+
+void	handle_signals_child(void)
+{
+	signal(SIGINT, ctrl_c);
+	signal(SIGQUIT, ctrl_d);
+}
+
+void	handle_signals_parent(void)
+{
+	signal(SIGINT, parent);
+	signal(SIGQUIT, parent);
 }

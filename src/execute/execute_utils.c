@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/22 17:46:43 by hectfern          #+#    #+#             */
+/*   Updated: 2022/08/22 17:46:44 by hectfern         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	open_pipes(t_shell *hell)
@@ -16,7 +28,7 @@ int	open_pipes(t_shell *hell)
 			if (pipe(cmd->pipe) == -1)
 			{
 				hell->error = ft_strdup("pipe error");
-				hell->exit_code = 1;
+				g_exit_code = 1;
 				return (1);
 			}
 			cmd->fd_out = cmd->pipe[1];
@@ -27,7 +39,7 @@ int	open_pipes(t_shell *hell)
 	return (0);
 }
 
-void	open_file(t_list *redirect, t_cmd *cmd)
+int	open_file(t_list *redirect, t_cmd *cmd, t_shell *hell)
 {
 	t_scan	*scan;
 	t_scan	*scan_n;
@@ -43,6 +55,13 @@ void	open_file(t_list *redirect, t_cmd *cmd)
 		cmd->fd_in = open(scan_n->token, O_RDONLY);
 	else if (!ft_strcmp(scan->type, DLESS))
 		cmd->fd_in = here_doc(scan_n->token);
+	if (cmd->fd_out == -1 || cmd->fd_in == -1)
+	{
+		hell->error = ft_strjoin(scan_n->token, ": No such file or directory");
+		g_exit_code = 1;
+		return (1);
+	}
+	return (0);
 }
 
 int	redirects(t_shell *hell)
@@ -56,7 +75,8 @@ int	redirects(t_shell *hell)
 		tmp2 = ((t_cmd *)tmp->content)->redirect;
 		while (tmp2)
 		{
-			open_file(tmp2, (t_cmd *)tmp->content);
+			if (open_file(tmp2, (t_cmd *)tmp->content, hell))
+				return (1);
 			tmp2 = tmp2->next->next;
 		}
 		if (((t_cmd *)tmp->content)->fd_in == -42)

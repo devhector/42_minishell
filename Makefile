@@ -22,7 +22,7 @@ SRC =	main.c minishell.c hash_table.c hash_utils.c hash_env.c create_env.c \
 		syntax.c execute.c execute_utils.c command.c command_table.c expanse.c \
 		free_utils.c here_doc.c clean_shell.c print_error.c bultins_utils.c \
 		b_echo.c b_cd.c b_exit.c b_export.c b_env.c b_unset.c b_pwd.c expansor.c \
-		checker.c utils.c fd_utils.c
+		checker.c utils.c fd_utils.c execute_signal.c signal.c
 
 
 RM = @rm -rf
@@ -35,7 +35,7 @@ all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ_DIR) $(OBJ)
 	@echo "Creating $(NAME)"
-	$(CC) -o $(NAME) $(OBJ) $(LFLAGS)
+	$(CC) -o $(NAME) $(CFLAGS) $(OBJ) $(LFLAGS)
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)

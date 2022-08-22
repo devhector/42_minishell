@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   syntax.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/22 17:45:35 by hectfern          #+#    #+#             */
+/*   Updated: 2022/08/22 17:45:36 by hectfern         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	pipe_syntax(t_list *token)
@@ -10,7 +22,7 @@ int	pipe_syntax(t_list *token)
 		if (!token->prev || !token->next)
 		{
 			scan->error = ft_strdup("PIPE: syntax error");
-			scan->exit_code = 1;
+			g_exit_code = 1;
 			return (1);
 		}
 	}
@@ -38,7 +50,7 @@ int	redirect_syntax(t_list *token)
 		if (!next)
 		{
 			scan->error = ft_strjoin(scan->type, ": syntax error redirect");
-			scan->exit_code = 1;
+			g_exit_code = 1;
 			return (1);
 		}
 		next_scan = (t_scan *)next->content;
@@ -47,7 +59,7 @@ int	redirect_syntax(t_list *token)
 		{
 			scan->error = \
 			ft_strjoin(next_scan->type, ": syntax error redirect");
-			scan->exit_code = 1;
+			g_exit_code = 1;
 			return (1);
 		}
 	}

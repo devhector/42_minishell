@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_tokens.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/22 17:45:58 by hectfern          #+#    #+#             */
+/*   Updated: 2022/08/22 17:45:58 by hectfern         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-static int	check_redirections(t_scan *scan)
+int	check_redirections(t_scan *scan)
 {
 	char	*str;
 
@@ -12,14 +24,14 @@ static int	check_redirections(t_scan *scan)
 		else if (str[1] == '>' && !(str[2] == '\0' || str[2] == '|'))
 		{
 			scan->error = ft_strdup("syntax error redirect");
-			scan->exit_code = 1;
+			g_exit_code = 1;
 			return (1);
 		}
 	}
 	else if (str[0] == '<' && !(str[1] == '<' || str[1] == '\0'))
 	{
 		scan->error = ft_strdup("syntax error redirect");
-		scan->exit_code = 1;
+		g_exit_code = 1;
 		return (1);
 	}
 	return (0);

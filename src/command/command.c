@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   command.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/22 17:47:22 by hectfern          #+#    #+#             */
+/*   Updated: 2022/08/22 17:47:22 by hectfern         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	add_cmd(t_list *token, t_cmd *cmd)
@@ -31,7 +43,7 @@ t_cmd	*create_cmd(t_shell *hell)
 	if (!cmd)
 	{
 		hell->error = ft_strdup(": malloc error");
-		hell->exit_code = 1;
+		g_exit_code = 1;
 		return (NULL);
 	}
 	cmd->fd_in = -42;

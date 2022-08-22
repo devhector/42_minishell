@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expanse.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/22 17:47:18 by hectfern          #+#    #+#             */
+/*   Updated: 2022/08/22 17:47:18 by hectfern         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	swap(t_scan *scan, char *token)
@@ -6,7 +18,7 @@ void	swap(t_scan *scan, char *token)
 	scan->token = token;
 }
 
-void	check_var(t_scan *scan, t_shell *hell)
+void	check_var(t_scan *scan)
 {
 	int	i;
 
@@ -28,7 +40,7 @@ void	check_var(t_scan *scan, t_shell *hell)
 		&& scan->token[2] == '\0')
 	{
 		free(scan->token);
-		scan->token = ft_itoa(hell->exit_code);
+		scan->token = ft_itoa(g_exit_code);
 	}
 }
 

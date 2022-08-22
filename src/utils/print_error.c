@@ -1,30 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print_error.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/22 17:45:13 by hectfern          #+#    #+#             */
+/*   Updated: 2022/08/22 17:45:14 by hectfern         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void	aux_print_scan(t_scan *scan, t_shell *hell)
+static void	aux_print_scan(t_scan *scan)
 {
 	if (scan->error)
 	{
 		ft_putstr_fd("minisHell: ", 2);
 		ft_putendl_fd(scan->error, 2);
-		hell->exit_code = scan->exit_code;
 	}
 }
 
-void	aux_print_cmd(t_cmd *cmd, t_shell *hell)
-{
-	if (cmd->error)
-	{
-		ft_putstr_fd("minisHell: ", 2);
-		ft_putendl_fd(cmd->error, 2);
-		hell->exit_code = cmd->exit_code;
-	}
-}
-
-void	aux_print_tmp(t_list *tmp, t_shell *hell)
+static void	aux_print_tmp(t_list *tmp)
 {
 	while (tmp)
 	{
-		aux_print_scan((t_scan *)tmp->content, hell);
+		aux_print_scan((t_scan *)tmp->content);
 		tmp = tmp->next;
 	}
 }
@@ -35,21 +36,22 @@ void	print_error(t_shell *hell)
 
 	if (hell->error)
 	{
+		ft_putstr_fd("minisHell: ", STDERR_FILENO);
 		ft_putendl_fd(hell->error, STDERR_FILENO);
 		return ;
 	}
-	aux_print_tmp(hell->tokens, hell);
-	aux_print_tmp(hell->cmd, hell);
+	aux_print_tmp(hell->tokens);
+	aux_print_tmp(hell->cmd);
 	tmp = hell->cmd;
 	while (tmp)
 	{
-		aux_print_tmp(((t_cmd *)tmp->content)->command, hell);
-		aux_print_tmp(((t_cmd *)tmp->content)->redirect, hell);
+		aux_print_tmp(((t_cmd *)tmp->content)->command);
+		aux_print_tmp(((t_cmd *)tmp->content)->redirect);
 		tmp = tmp->next;
 	}
 }
 
-void	errno_handle(char *str, int errnb, t_shell *hell)
+void	errno_handle(char *str, int errnb)
 {
 	if (errnb == EACCES)
 	{
@@ -69,5 +71,5 @@ void	errno_handle(char *str, int errnb, t_shell *hell)
 		ft_putstr_fd(str, STDERR_FILENO);
 		ft_putendl_fd(": Not a directory", STDERR_FILENO);
 	}
-	hell->exit_code = errnb;
+	g_exit_code = errnb;
 }

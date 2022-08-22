@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   b_exit.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/22 17:47:45 by hectfern          #+#    #+#             */
+/*   Updated: 2022/08/22 17:47:45 by hectfern         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	is_number(char *str)
@@ -23,7 +35,7 @@ void	exit_shell(t_shell *hell, int print)
 	clean_shell(hell);
 	if (print)
 		ft_putendl_fd("exit", STDOUT_FILENO);
-	exit(hell->exit_code);
+	exit(g_exit_code);
 }
 
 int	b_exit(t_cmd *cmd, t_shell *hell)
@@ -38,9 +50,9 @@ int	b_exit(t_cmd *cmd, t_shell *hell)
 	{
 		arg = ft_atoi(args[1]);
 		if (arg >= 0 && arg <= 256)
-			hell->exit_code = arg;
+			g_exit_code = arg;
 		else
-			hell->exit_code = 127;
+			g_exit_code = 127;
 		exit_shell(hell, 1);
 	}
 	else
@@ -49,7 +61,7 @@ int	b_exit(t_cmd *cmd, t_shell *hell)
 		ft_putstr_fd("minisHell: exit: ", STDERR_FILENO);
 		ft_putstr_fd(args[1], STDERR_FILENO);
 		ft_putendl_fd(": numeric argument required", STDERR_FILENO);
-		hell->exit_code = 2;
+		g_exit_code = 2;
 		exit_shell(hell, 0);
 	}
 	return (0);

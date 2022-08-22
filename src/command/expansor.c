@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expansor.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/22 17:47:11 by hectfern          #+#    #+#             */
+/*   Updated: 2022/08/22 17:47:12 by hectfern         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	tilde_expansor(t_scan *scan, t_shell *hell)
@@ -10,7 +22,7 @@ int	tilde_expansor(t_scan *scan, t_shell *hell)
 	if (!home)
 	{
 		scan->error = ft_strdup("HOME not set");
-		scan->exit_code = 1;
+		g_exit_code = 1;
 		return (-42);
 	}
 	home_len = ft_strlen(home);
@@ -74,7 +86,7 @@ int	token_expansor(t_scan *scan, t_shell *hell)
 			i = var_expansor(scan, hell, i);
 		i++;
 	}
-	check_var(scan, hell);
+	check_var(scan);
 	remove_quote(scan);
 	return (0);
 }
