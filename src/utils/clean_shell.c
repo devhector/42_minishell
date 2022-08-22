@@ -1,22 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
+/*   clean_shell.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/06 19:17:47 by hectfern          #+#    #+#             */
-/*   Updated: 2021/08/13 15:43:20 by hectfern         ###   ########.fr       */
+/*   Created: 2022/08/20 15:36:28 by hectfern          #+#    #+#             */
+/*   Updated: 2022/08/20 15:39:50 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-void	ft_lstadd_front(t_list	**lst, t_list	*new)
+void	clean_shell(t_shell *hell)
 {
-	t_list	*tmp;
-
-	tmp = *lst;
-	*lst = new;
-	new->next = tmp;
+	if (hell->line)
+		free(hell->line);
+	if (hell->error)
+		free(hell->error);
+	if (hell->tokens)
+		ft_lstclear(&hell->tokens, del_scan);
+	if (hell->cmd)
+		ft_lstclear(&hell->cmd, free_cmd);
+	if (hell->envp)
+	{
+		free_array(hell->envp);
+		hell->envp = NULL;
+	}
+	hell->line = NULL;
+	hell->error = NULL;
+	hell->tokens = NULL;
+	hell->cmd = NULL;
 }

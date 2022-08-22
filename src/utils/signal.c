@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/06 20:04:23 by hectfern          #+#    #+#             */
-/*   Updated: 2021/08/07 09:46:41 by hectfern         ###   ########.fr       */
+/*   Created: 2022/08/22 17:45:01 by hectfern          #+#    #+#             */
+/*   Updated: 2022/08/22 17:45:01 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-void	ft_lstadd_back(t_list	**lst, t_list	*new)
+static void	ctrl_c(int signal)
 {
-	t_list	*aux;
+	g_exit_code = 128 + signal;
+	ft_putchar_fd('\n', STDOUT_FILENO);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+}
 
-	if (!new || !lst)
-		return ;
-	if (!*lst)
-	{
-		*lst = new;
-	}
-	else
-	{
-		aux = ft_lstlast(*lst);
-		aux->next = new;
-	}
+void	handle_signals(void)
+{
+	signal(SIGINT, ctrl_c);
+	signal(SIGQUIT, SIG_IGN);
 }

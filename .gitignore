@@ -1,6 +1,7 @@
 .vscode
 *.o
 *a
-
-
-
+minishell
+*test*
+valgrind-out.txt
+note.md

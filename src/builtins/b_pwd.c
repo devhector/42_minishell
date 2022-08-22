@@ -1,31 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstclear.c                                      :+:      :+:    :+:   */
+/*   b_pwd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/07 12:16:23 by hectfern          #+#    #+#             */
-/*   Updated: 2022/01/08 17:36:33 by hectfern         ###   ########.fr       */
+/*   Created: 2022/08/22 17:47:36 by hectfern          #+#    #+#             */
+/*   Updated: 2022/08/22 17:47:36 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-void	ft_lstclear(t_list	**lst, void (*del)(void*))
+int	b_pwd(void)
 {
-	t_list	*tmp;
-	t_list	*tmp2;
+	char	*pwd;
 
-	if (!*lst)
-		return ;
-	tmp = *lst;
-	while (tmp)
+	pwd = getcwd(NULL, 0);
+	if (pwd)
 	{
-		tmp2 = tmp->next;
-		del(tmp->content);
-		free(tmp);
-		tmp = tmp2;
+		ft_putendl_fd(pwd, STDOUT_FILENO);
+		free(pwd);
 	}
-	*lst = NULL;
+	else
+	{
+		ft_putendl_fd("minisHell: pwd: no such file or directory", \
+			STDERR_FILENO);
+		g_exit_code = 1;
+	}
+	g_exit_code = 0;
+	return (0);
 }

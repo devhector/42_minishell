@@ -1,41 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   b_unset.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/04 14:06:42 by hectfern          #+#    #+#             */
-/*   Updated: 2022/01/07 17:34:44 by hectfern         ###   ########.fr       */
+/*   Created: 2022/08/22 17:47:32 by hectfern          #+#    #+#             */
+/*   Updated: 2022/08/22 17:47:32 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_strjoin(char	*s1, char const	*s2)
+int	b_unset(t_cmd *cmd, t_shell *hell)
 {
-	size_t	i;
-	size_t	j;
-	char	*str;
+	int			i;
+	t_hash_elem	*elem;
 
-	if (!s1)
-		s1 = ft_strdup("");
-	if (!s1 || !s2)
-		return (NULL);
-	i = 0;
-	while (s1[i])
+	i = 1;
+	g_exit_code = 0;
+	if (count_args(cmd->cmd_tab) == 1)
+		return (0);
+	while (cmd->cmd_tab[i])
+	{
+		elem = remove_element(hell->env, cmd->cmd_tab[i]);
+		if (elem)
+		{
+			free(elem->key);
+			if (elem->data)
+				free(elem->data);
+			free(elem);
+		}
 		i++;
-	j = 0;
-	while (s2[j])
-		j++;
-	str = malloc(sizeof(char) * (i + j + 1));
-	if (!str)
-		return (NULL);
-	j = 0;
-	ft_strlcpy(str, s1, i + 1);
-	while (s2[j])
-		str[i++] = s2[j++];
-	str[i] = '\0';
-	free(s1);
-	return (str);
+	}
+	return (0);
 }

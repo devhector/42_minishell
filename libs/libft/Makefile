@@ -1,6 +1,6 @@
 
 CFLAGS		= -Wall -Wextra -Werror -g
-CC			= gcc
+CC			= clang-12
 NAME		= libft.a
 FLAGLIB		= -rcs
 RM			= /bin/rm -f
@@ -12,13 +12,13 @@ FUNC		= ft_atoi.c ft_isalnum.c ft_isalpha.c ft_isascii.c ft_isdigit.c\
 				ft_memcpy.c ft_memmove.c ft_strdup.c ft_itoa.c ft_strtrim.c\
 				ft_strmapi.c ft_striteri.c ft_putchar_fd.c ft_putstr_fd.c\
 				ft_putendl_fd.c ft_putnbr_fd.c ft_substr.c ft_strjoin.c\
-				ft_split.c ft_strcmp.c
+				ft_split.c ft_strcmp.c ft_isspace.c \
 
 OBJ			= $(FUNC:.c=.o)
 
 BONUS		= ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c\
 				ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c\
-				ft_lstmap.c
+				ft_lstmap.c ft_lstadd_middle.c
 
 
 BONUS_OBJ	= $(BONUS:.c=.o)

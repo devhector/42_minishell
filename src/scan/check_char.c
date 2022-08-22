@@ -1,25 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
+/*   check_char.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/07 10:15:57 by hectfern          #+#    #+#             */
-/*   Updated: 2021/08/14 14:44:03 by hectfern         ###   ########.fr       */
+/*   Created: 2022/08/22 17:46:03 by hectfern          #+#    #+#             */
+/*   Updated: 2022/08/22 17:46:04 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-void	ft_lstdelone(t_list *lst, void (*del)(void *))
+int	is_redirect(char c)
 {
-	t_list	*next;
+	return (c == '>' || c == '<' || c == '|');
+}
 
-	if (!lst)
-		return ;
-	next = lst->next;
-	del(lst->content);
-	free(lst);
-	lst = next;
+int	is_separator(char c)
+{
+	return (c == ' ' || c == '\t' || c == '\n');
+}
+
+int	is_quote(char c)
+{
+	return (c == '\'' || c == '\"');
+}
+
+int	has_quote(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (is_quote(str[i]))
+			return (i);
+		i++;
+	}
+	return (-1);
 }

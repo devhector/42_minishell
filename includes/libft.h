@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/02 15:32:03 by hectfern          #+#    #+#             */
-/*   Updated: 2022/01/08 17:32:00 by hectfern         ###   ########.fr       */
+/*   Updated: 2022/07/17 00:05:47 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 typedef struct s_list
 {
 	void			*content;
+	struct s_list	*prev;
 	struct s_list	*next;
 }	t_list;
 
@@ -27,6 +28,7 @@ int		ft_isalnum(int c);
 int		ft_isascii(int c);
 int		ft_isdigit(int c);
 int		ft_isprint(int c);
+int		ft_isspace(int c);
 int		ft_tolower(int c);
 int		ft_toupper(int c);
 int		ft_atoi(const char	*str);
@@ -65,6 +67,7 @@ void	ft_putendl_fd(char *s, int fd);
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 void	ft_lstadd_front(t_list	**lst, t_list	*new);
 void	ft_lstadd_back(t_list	**lst, t_list	*new);
+void	ft_lstadd_middle(t_list	*elem, t_list	*new);
 void	ft_lstdelone(t_list	*lst, void (*del)(void*));
 void	ft_lstclear(t_list	**lst, void (*del)(void*));
 void	ft_striteri(char *s, void (*f)(unsigned int, char *));
