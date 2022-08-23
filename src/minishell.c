@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 17:42:18 by hectfern          #+#    #+#             */
-/*   Updated: 2022/08/22 17:43:11 by hectfern         ###   ########.fr       */
+/*   Updated: 2022/08/23 13:52:25 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,6 @@ int	full_space(char *str)
 		i++;
 	}
 	return (1);
-}
-
-char	*create_prompt(t_shell *hell)
-{
-	char	*usr;
-
-	usr = ft_strdup(get_value_env(hell->env, "USER"));
-	if (!usr)
-		return (NULL);
-	return (ft_strjoin(usr, " $> "));
 }
 
 void	minishell(char	**envp)
