@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 17:46:56 by hectfern          #+#    #+#             */
-/*   Updated: 2022/08/22 17:46:57 by hectfern         ###   ########.fr       */
+/*   Updated: 2022/08/22 21:38:30 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ int	update_env(t_hash_elem **env, char *key, char *value)
 	}
 	else
 	{
-		free(elem->data);
+		if (elem->data)
+			free(elem->data);
 		elem->data = ft_strdup(value);
 	}
 	if (value)
