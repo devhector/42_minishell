@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 17:47:59 by hectfern          #+#    #+#             */
-/*   Updated: 2022/08/22 22:07:29 by hectfern         ###   ########.fr       */
+/*   Updated: 2022/08/23 12:38:39 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,7 @@ int	cd_path(char *str, t_shell *hell)
 	new = getcwd(NULL, 0);
 	if (!new)
 	{
-		ft_putendl_fd("minisHell: cd: Current directory not found", \
-				STDERR_FILENO);
-		free(old);
+		hell->error = ft_strdup("cd: Current directory not found");
 		return (1);
 	}
 	if (str[0] == '-' && str[1] == '\0')
