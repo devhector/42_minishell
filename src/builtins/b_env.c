@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 17:47:50 by hectfern          #+#    #+#             */
-/*   Updated: 2022/08/22 17:47:50 by hectfern         ###   ########.fr       */
+/*   Updated: 2022/08/23 14:27:05 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	b_env(t_cmd *cmd, t_shell *hell)
 	{
 		ft_putstr_fd("minishell: env: ", STDERR_FILENO);
 		ft_putstr_fd(cmd->cmd_tab[1], STDERR_FILENO);
-		ft_putendl_fd(": no such file or directory", STDERR_FILENO);
+		ft_putendl_fd(": run with no options or arguments", STDERR_FILENO);
 		return (127);
 	}
 	return (0);
