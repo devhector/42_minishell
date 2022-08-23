@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 17:45:52 by hectfern          #+#    #+#             */
-/*   Updated: 2022/08/22 17:45:53 by hectfern         ###   ########.fr       */
+/*   Updated: 2022/08/23 11:28:15 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,24 +110,18 @@ int	check_variable(t_list *token)
 
 int	check_path(t_cmd *cmd, t_shell *hell)
 {
-	char	*tmp;
-
-	if (!cmd->path)
-	{
-		tmp = ft_strjoin("minisHell: ", cmd->cmd_tab[0]);
-		hell->error = ft_strjoin(tmp, " : Command not found");
-		g_exit_code = 127;
-		free(tmp);
-		return (1);
-	}
 	if (is_bultin(cmd))
 		return (0);
+	if (!cmd->path)
+	{
+		hell->error = ft_strjoin(cmd->cmd_tab[0], " : Command not found");
+		g_exit_code = 127;
+		return (1);
+	}
 	else if (access(cmd->path, F_OK | X_OK) == -1)
 	{
-		tmp = ft_strjoin("minisHell: ", cmd->cmd_tab[0]);
-		hell->error = ft_strjoin(tmp, " : Command not found");
+		hell->error = ft_strjoin(cmd->cmd_tab[0], " : Command not found");
 		g_exit_code = 127;
-		free(tmp);
 		return (1);
 	}
 	return (0);
