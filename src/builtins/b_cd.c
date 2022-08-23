@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 17:47:59 by hectfern          #+#    #+#             */
-/*   Updated: 2022/08/22 17:47:59 by hectfern         ###   ########.fr       */
+/*   Updated: 2022/08/22 22:07:29 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,14 @@ int	cd_path(char *str, t_shell *hell)
 	{
 		ft_putendl_fd("minisHell: cd: Current directory not found", \
 				STDERR_FILENO);
+		free(old);
 		return (1);
 	}
 	if (str[0] == '-' && str[1] == '\0')
 	{
 		if (chdir(old) == -1)
 			return (error_message(old));
-		update_env(hell->env, "PWD", old);
+		update_env(hell->env, "PWD", ft_strdup(old));
 	}
 	else
 	{
