@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 17:45:58 by hectfern          #+#    #+#             */
-/*   Updated: 2022/08/22 18:24:10 by hectfern         ###   ########.fr       */
+/*   Updated: 2022/08/23 14:03:31 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ int	check_tokens(t_shell *hell)
 			return ('b');
 		if (check_follow_pipe(tmp))
 			return ('p');
-		if (check_variable(tmp))
-			return ('v');
 		tmp = tmp->next;
 	}
 	return (0);

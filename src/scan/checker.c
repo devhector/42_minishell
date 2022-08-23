@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 17:45:52 by hectfern          #+#    #+#             */
-/*   Updated: 2022/08/23 11:28:15 by hectfern         ###   ########.fr       */
+/*   Updated: 2022/08/23 14:02:54 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,35 +75,6 @@ int	check_follow_pipe(t_list *token)
 		scan->error = ft_strdup("syntax error pipe");
 		g_exit_code = 1;
 		return (1);
-	}
-	return (0);
-}
-
-int	check_variable(t_list *token)
-{
-	int		i;
-	t_scan	*scan;
-
-	scan = (t_scan *)token->content;
-	if (ft_strchr(scan->token, '='))
-	{
-		i = 0;
-		if (ft_isdigit(scan->token[i]))
-		{
-			scan->error = ft_strdup("Variable name cannot start with a digit");
-			g_exit_code = 1;
-			return (1);
-		}
-		while (scan->token[i] && scan->token[i] != '=')
-		{
-			if (!ft_isalnum(scan->token[i]) && scan->token[i] != '_')
-			{
-				scan->error = ft_strdup("syntax error variable");
-				g_exit_code = 1;
-				return (1);
-			}
-			i++;
-		}
 	}
 	return (0);
 }
