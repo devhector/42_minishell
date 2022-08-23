@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 17:46:39 by hectfern          #+#    #+#             */
-/*   Updated: 2022/08/22 21:25:49 by hectfern         ###   ########.fr       */
+/*   Updated: 2022/08/23 13:39:43 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,8 @@ int	space_in_cmd(char *str, t_shell *hell)
 	return (0);
 }
 
-int	execute_cmd(t_shell *hell, pid_t *pid, t_list *tmp)
+int	execute_cmd(t_shell *hell, pid_t *pid, t_list *tmp, int i)
 {
-	int	i;
-
-	i = 0;
-	tmp = hell->cmd;
 	handle_signals_parent();
 	while (tmp)
 	{
@@ -97,9 +93,7 @@ int	execute_cmd(t_shell *hell, pid_t *pid, t_list *tmp)
 int	execute(t_shell *hell)
 {
 	pid_t	pid[420];
-	t_list	*tmp;
 
-	tmp = NULL;
 	if (hell->envp)
 	{
 		free_array(hell->envp);
@@ -110,7 +104,7 @@ int	execute(t_shell *hell)
 		return (1);
 	if (redirects(hell))
 		return (1);
-	if (execute_cmd(hell, pid, tmp))
+	if (execute_cmd(hell, pid, hell->cmd, 0))
 		return (1);
 	close_all_fd(hell);
 	return (0);
