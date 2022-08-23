@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 17:46:39 by hectfern          #+#    #+#             */
-/*   Updated: 2022/08/22 17:46:40 by hectfern         ###   ########.fr       */
+/*   Updated: 2022/08/22 21:25:49 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void	execute_child(t_cmd *cmd, t_shell *hell)
 int	space_in_cmd(char *str, t_shell *hell)
 {
 	int		i;
-	char	*tmp;
 
 	if (!str)
 		return (0);
@@ -59,10 +58,8 @@ int	space_in_cmd(char *str, t_shell *hell)
 	{
 		if (ft_isspace(str[i++]))
 		{
-			tmp = ft_strjoin("minisHell: ", str);
-			hell->error = ft_strjoin(tmp, " : command not found");
-			g_exit_code = 1;
-			free(tmp);
+			hell->error = ft_strjoin(str, " : no such file or directory");
+			g_exit_code = 127;
 			return (1);
 		}
 	}
