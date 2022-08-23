@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 17:38:49 by hectfern          #+#    #+#             */
-/*   Updated: 2022/08/22 17:48:59 by hectfern         ###   ########.fr       */
+/*   Updated: 2022/08/23 18:53:38 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void		exec_bultin(t_cmd *cmd, t_shell *hell);
 void		errno_handle(char *str, int errnb);
 void		wait_pids(pid_t *pid, int i);
 void		close_fd_redirect(t_scan *redirect, t_cmd *cmd);
+void		close_all_fd(t_shell *hell);
 
 int			scan(t_shell *hell);
 int			lexer(t_shell *hell);
@@ -103,6 +104,7 @@ int			check_follow_pipe(t_list *token);
 int			check_variable(t_list *token);
 int			builtin_parent(t_cmd *cmd, t_shell *hell);
 int			check_path(t_cmd *cmd, t_shell *hell);
+int			space_in_cmd(char *str, t_shell *hell);
 
 char		*get_value(char	*data);
 char		*get_key(char	*data);

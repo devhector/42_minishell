@@ -6,25 +6,11 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 17:46:39 by hectfern          #+#    #+#             */
-/*   Updated: 2022/08/23 13:39:43 by hectfern         ###   ########.fr       */
+/*   Updated: 2022/08/23 19:14:32 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	close_all_fd(t_shell *hell)
-{
-	t_list	*tmp;
-	t_cmd	*cmd;
-
-	tmp = hell->cmd;
-	while (tmp)
-	{
-		cmd = (t_cmd *)tmp->content;
-		close_fd(cmd);
-		tmp = tmp->next;
-	}
-}
 
 void	execute_child(t_cmd *cmd, t_shell *hell)
 {
@@ -47,22 +33,23 @@ void	execute_child(t_cmd *cmd, t_shell *hell)
 	exit(g_exit_code);
 }
 
-int	space_in_cmd(char *str, t_shell *hell)
+void	fork_child(t_cmd *cmd, t_shell *hell, int *pid)
 {
-	int		i;
+	*pid = fork();
+	if (*pid == 0)
+		execute_child(cmd, hell);
+	close_fd(cmd);
+}
 
-	if (!str)
-		return (0);
-	i = 0;
-	while (str[i])
-	{
-		if (ft_isspace(str[i++]))
-		{
-			hell->error = ft_strjoin(str, " : no such file or directory");
-			g_exit_code = 127;
-			return (1);
-		}
-	}
+static int	check(t_cmd *cmd, t_shell *hell)
+{
+	char	*path;
+
+	path = cmd->path;
+	if (space_in_cmd(path, hell))
+		return (1);
+	if (check_path(cmd, hell))
+		return (1);
 	return (0);
 }
 
@@ -72,15 +59,15 @@ int	execute_cmd(t_shell *hell, pid_t *pid, t_list *tmp, int i)
 	while (tmp)
 	{
 		((t_cmd *)tmp->content)->path = path(hell, ((t_cmd *)tmp->content));
-		if (space_in_cmd(((t_cmd *)tmp->content)->path, hell)
-			|| check_path((t_cmd *)tmp->content, hell))
+		if (check(tmp->content, hell))
 			return (1);
 		if (builtin_parent(tmp->content, hell))
+			fork_child((t_cmd *)tmp->content, hell, &pid[i++]);
+		else
 		{
-			pid[i] = fork();
-			if (pid[i++] == 0)
-				execute_child((t_cmd *)tmp->content, hell);
-			close_fd(tmp->content);
+			free(((t_cmd *)tmp->content)->path);
+			((t_cmd *)tmp->content)->path = NULL;
+			return (0);
 		}
 		free(((t_cmd *)tmp->content)->path);
 		((t_cmd *)tmp->content)->path = NULL;

@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 17:44:57 by hectfern          #+#    #+#             */
-/*   Updated: 2022/08/22 17:44:58 by hectfern         ###   ########.fr       */
+/*   Updated: 2022/08/23 18:53:26 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,23 @@ char	**sort_array(char **str)
 		i++;
 	}
 	return (new);
+}
+
+int	space_in_cmd(char *str, t_shell *hell)
+{
+	int		i;
+
+	if (!str)
+		return (0);
+	i = 0;
+	while (str[i])
+	{
+		if (ft_isspace(str[i++]))
+		{
+			hell->error = ft_strjoin(str, " : no such file or directory");
+			g_exit_code = 127;
+			return (1);
+		}
+	}
+	return (0);
 }
