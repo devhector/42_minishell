@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 17:47:22 by hectfern          #+#    #+#             */
-/*   Updated: 2022/08/24 15:24:51 by hectfern         ###   ########.fr       */
+/*   Updated: 2022/08/24 15:42:07 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,8 @@ t_cmd	*create_cmd(t_shell *hell)
 	return (cmd);
 }
 
-void	join_assign_token(t_shell *hell)
+void	join_assign_token(t_shell *hell, t_scan *s)
 {
-	t_scan	*s;
 	char	*tmp;
 	char	*str;
 	t_list	*token;
@@ -92,7 +91,7 @@ int	command(t_shell *hell)
 	t_cmd	*cmd;
 	t_list	*token;
 
-	join_assign_token(hell);
+	join_assign_token(hell, NULL);
 	token = hell->tokens;
 	cmd = create_cmd(hell);
 	if (!cmd)

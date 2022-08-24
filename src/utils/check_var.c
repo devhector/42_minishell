@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 15:03:40 by hectfern          #+#    #+#             */
-/*   Updated: 2022/08/24 15:28:32 by hectfern         ###   ########.fr       */
+/*   Updated: 2022/08/24 15:36:21 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	put_exit_code(t_scan *s, char *first, int pos)
 	free(tmp2);
 }
 
-void remove_str(t_scan *s, char *first, int pos)
+void	remove_str(t_scan *s, char *first, int pos)
 
 {
 	char	*tmp;
@@ -49,7 +49,7 @@ void	remove_var(t_scan *s, int pos)
 		remove_str(s, tmp, pos + 2);
 	else
 	{
-		while(ft_isalnum(s->token[pos + i]) || s->token[pos + i] == '_')
+		while (ft_isalnum(s->token[pos + i]) || s->token[pos + i] == '_')
 			i++;
 		remove_str(s, tmp, pos + i);
 	}
