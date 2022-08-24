@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 17:47:22 by hectfern          #+#    #+#             */
-/*   Updated: 2022/08/22 17:47:22 by hectfern         ###   ########.fr       */
+/*   Updated: 2022/08/24 15:24:51 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ void	join_assign_token(t_shell *hell)
 	while (token)
 	{
 		s = (t_scan *)token->content;
-		if (s->token[ft_strlen(s->token) - 1] == '=')
+		if (s->token[ft_strlen(s->token) - 1] == '='
+			|| (s->token[0] == '$' && s->token[1] == '\0'))
 		{
 			if (token->next)
 			{
