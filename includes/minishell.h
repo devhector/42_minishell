@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 17:38:49 by hectfern          #+#    #+#             */
-/*   Updated: 2022/08/23 18:53:38 by hectfern         ###   ########.fr       */
+/*   Updated: 2022/08/24 12:50:19 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void		close_fd(t_cmd *cmd);
 void		free_array(char **str);
 void		del_scan(void *content);
 void		free_cmd(void *content);
-void		check_var(t_scan *scan);
+void		check_var(t_scan *s);
 void		swap(t_scan *scan, char *token);
 void		remove_quote(t_scan *scan);
 void		exec_bultin(t_cmd *cmd, t_shell *hell);
