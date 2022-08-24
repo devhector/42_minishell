@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 17:45:52 by hectfern          #+#    #+#             */
-/*   Updated: 2022/08/23 14:02:54 by hectfern         ###   ########.fr       */
+/*   Updated: 2022/08/24 08:43:18 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,19 @@ int	check_quotes(t_scan *scan)
 int	check_backslash_semicolon(t_scan *scan)
 {
 	int		i;
+	int		is_quotes;
 	char	*str;
 
 	i = 0;
+	is_quotes = 0;
 	str = scan->token;
 	while (str[i])
 	{
-		if (str[i] == '\\' || str[i] == ';')
+		if (is_quote(str[i]))
+			is_quotes = !is_quotes;
+		if ((str[i] == '\\' || str[i] == ';') && !is_quotes)
 		{
-			scan->error = ft_strdup("syntax error backslash or semicolon");
+			scan->error = ft_strjoin("syntax error: ", str);
 			g_exit_code = 1;
 			return (1);
 		}
