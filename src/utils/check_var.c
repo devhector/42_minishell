@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 15:03:40 by hectfern          #+#    #+#             */
-/*   Updated: 2022/08/24 21:35:10 by hectfern         ###   ########.fr       */
+/*   Updated: 2022/08/25 12:27:29 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,10 @@ void	check_var(t_scan *s)
 {
 	int	i;
 
-	if (s->token[has_quote(s->token)] == '\'')
-		return ;
+	i = has_quote(s->token);
+	if (i != -1)
+		if (s->token[i] == '\'')
+			return ;
 	i = 0;
 	if (s->token[i] == '$' && s->token[i + 1] == '\0')
 	{
