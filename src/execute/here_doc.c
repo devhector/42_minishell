@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 17:46:34 by hectfern          #+#    #+#             */
-/*   Updated: 2022/08/25 16:26:49 by hectfern         ###   ########.fr       */
+/*   Updated: 2022/08/25 18:29:53 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int	s_read_doc(int signal, void *hell)
 		clean_shell(hellish);
 		clear_table(hellish->env);
 		rl_clear_history();
+		rl_replace_line("", 0);
+		rl_on_new_line();
 		exit(g_exit_code);
 	}
 	return (0);
@@ -51,6 +53,11 @@ void	read_doc(char	*delimiter, int fd, t_shell *hell)
 	while (42)
 	{
 		line = readline("> ");
+		if (!line)
+		{
+			ft_putstr_fd("minisHell: here-doc: EOF\n", STDERR_FILENO);
+			break ;
+		}
 		if (!ft_strcmp(line, delimiter))
 		{
 			free(line);
@@ -73,6 +80,7 @@ int	here_doc(char *delimiter, t_shell *hell)
 	int	pid;
 	int	status;
 
+	g_exit_code = 0;
 	if (pipe(fd) == -1)
 		return (-43);
 	pid = fork();
@@ -86,10 +94,5 @@ int	here_doc(char *delimiter, t_shell *hell)
 	signal_here_doc();
 	close(fd[1]);
 	waitpid(pid, &status, 0);
-	if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
-	{
-		close(fd[0]);
-		return (-43);
-	}
 	return (fd[0]);
 }
