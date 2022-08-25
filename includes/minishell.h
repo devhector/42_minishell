@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 17:38:49 by hectfern          #+#    #+#             */
-/*   Updated: 2022/08/24 12:50:19 by hectfern         ###   ########.fr       */
+/*   Updated: 2022/08/25 15:42:21 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int			execute(t_shell *hell);
 int			command_table(t_shell *hell);
 int			open_pipes(t_shell *hell);
 int			redirects(t_shell *hell);
-int			here_doc(char *delimiter);
+int			here_doc(char *delimiter, t_shell *hell);
 int			is_bultin(t_cmd *cmd);
 int			update_env(t_hash_elem **env, char *key, char *value);
 int			b_echo(t_cmd *cmd);

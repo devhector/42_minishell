@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 17:46:43 by hectfern          #+#    #+#             */
-/*   Updated: 2022/08/22 17:46:44 by hectfern         ###   ########.fr       */
+/*   Updated: 2022/08/25 15:45:05 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	open_file(t_list *redirect, t_cmd *cmd, t_shell *hell)
 	else if (!ft_strcmp(scan->type, LESS))
 		cmd->fd_in = open(scan_n->token, O_RDONLY);
 	else if (!ft_strcmp(scan->type, DLESS))
-		cmd->fd_in = here_doc(scan_n->token);
+		cmd->fd_in = here_doc(scan_n->token, hell);
 	if (cmd->fd_out == -1 || cmd->fd_in == -1)
 	{
 		hell->error = ft_strjoin(scan_n->token, ": No such file or directory");
