@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 15:03:40 by hectfern          #+#    #+#             */
-/*   Updated: 2022/08/25 12:27:29 by hectfern         ###   ########.fr       */
+/*   Updated: 2022/08/26 16:01:11 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,12 @@ void	check_var(t_scan *s)
 	}
 	while (s->token[i])
 	{
-		if (s->token[i] == '$')
+		if (s->token[i] == '$' && s->token[i + 1] != '"'
+			&& s->token[i + 1] != '$' && s->token[i + 1] != '\0'
+			&& s->token[i + 1] != ' ')
 			remove_var(s, i);
+		if (s->token[i] == '$' && s->token[i + 1] == '\0')
+			i++;
 		i++;
 	}
 }
