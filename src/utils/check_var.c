@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 15:03:40 by hectfern          #+#    #+#             */
-/*   Updated: 2022/08/26 16:01:11 by hectfern         ###   ########.fr       */
+/*   Updated: 2022/08/26 21:22:21 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	put_exit_code(t_scan *s, char *first, int pos)
 }
 
 void	remove_str(t_scan *s, char *first, int pos)
-
 {
 	char	*tmp;
 
